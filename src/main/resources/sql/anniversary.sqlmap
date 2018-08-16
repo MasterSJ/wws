@@ -43,7 +43,7 @@
     <sql id="selectNeedRemindInfo" description="查看要提醒的纪念日信息"> 
     <![CDATA[
         SELECT id, date_type, anniversary_month, anniversary_date, remind_interval, 
-        remind_email, remind_content
+        remind_email, remind_mobile, remind_content
         FROM t_anniversary_remind
         WHERE concat(anniversary_month, anniversary_date) = '${anniversaryMonthDate}'
         and remind_interval = ${remindInterval}

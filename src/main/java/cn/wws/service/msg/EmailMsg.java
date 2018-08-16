@@ -1,5 +1,7 @@
-package cn.wws.util;
+package cn.wws.service.msg;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -11,11 +13,35 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-public class SendQqemail {
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+
+import cn.wws.service.RunLogService;
+
+@Service
+public class EmailMsg {
 	private static final String user = "wan____an@126.com";
 	private static final String password = "dickbs18";
 	
-	public static void sendEmail(String toAddr, String subject, String content) throws MessagingException
+	@Autowired
+    RunLogService runLogService;
+	
+	public void sendEmail(String receiver, String content) {
+		if (StringUtils.isBlank(receiver)) {
+			return;
+        }
+		try {
+			sendEmail(receiver, "纪念日提醒", content);
+			addEmailRunLog(receiver, "纪念日提醒", content, null);
+		} catch (Exception e) {
+			addEmailRunLog(receiver, "纪念日提醒", content, e.getMessage());
+		}
+	}
+	
+	public void sendEmail(String toAddr, String subject, String content) throws MessagingException
     {
          
         // 配置发送邮件的环境属性
@@ -66,6 +92,45 @@ public class SendQqemail {
  
         // 发送邮件
         Transport.send(message);
-         
+    }
+	
+	private void addEmailRunLog(String receiver, String title, String content, String errorMsg) {
+    	JSONObject json = new JSONObject();
+    	json.put("receiver", receiver);
+    	json.put("title", title);
+    	json.put("content", content);
+    	
+    	Map<String, String> param = new HashMap<String, String>();
+    	param.put("params", json.toJSONString());
+    	param.put("logType", "email");
+    	param.put("logDesc", "发送纪念日提醒邮件");
+    	if (errorMsg == null) {
+        	param.put("logResult", "SUCCESS");
+    	} else {
+        	param.put("logResult", "FAIL");
+    	}
+    	param.put("errorMsg", errorMsg);
+    	param.put("operationTime", String.valueOf(System.currentTimeMillis()));
+    	runLogService.writeRunLog(param);
+    }
+	
+	/**
+     * @Description: 生成短信内容
+     * @author: songjun 
+     * @date: 2018年8月16日 
+     * @param remindInterval
+     * @param monthDate
+     * @param remindContent
+     * @return
+     */
+    public String getEmailContent(int remindInterval, String monthDate, String remindContent) {
+    	StringBuffer sb = new StringBuffer();
+        if (remindInterval == 0) {
+            sb.append("今天是");
+        } else {
+            sb.append(remindInterval).append("天后是");
+        }
+        sb.append(monthDate).append("，是您设置的纪念日，提醒内容：").append(remindContent).append("。") ;
+        return sb.toString();
     }
 }
