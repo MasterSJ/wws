@@ -1,0 +1,42 @@
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+	        <button type="button" class="navbar-toggle" data-toggle="collapse"
+	                data-target="#wws_navbar">
+	            <span class="sr-only">切换导航</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	        </button>
+          </div>
+          <div class="collapse navbar-collapse" id="wws_navbar">
+            <ul class="nav navbar-nav">
+              <li id="mainPage"><a href="/">主页</a></li>
+              <li id="messagePage" class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">便签纸<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="javascript:window.open('/showMessageBoard');void(0)">看便签</a></li>
+                  <li><a href="javascript:window.open('/showNewMessage');void(0)">贴便签</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header"></li>
+                </ul>
+              </li>
+              <li id="blogPage" class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">学习笔记<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/showBlog">笔记首页</a></li>
+                </ul>
+              </li>
+              <li><a href="/showAnniversaryRemind" >纪念日提醒</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <#if USER??>
+              <li><a href="/user/info">${USER.userName} <span class="sr-only"></span></a></li>
+              <#else>
+              <li><a href="/showSignin">登录/注册<span class="sr-only"></span></a></li>
+              </#if>
+              <li id="profilePage"><a href="/showProfile">网站介绍</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="insertVisitLog" description="插入访问日志"> 
+    <![CDATA[
+        insert into t_visit_log (client_ip, visit_url, visit_param, if_success, operation_time, create_time)
+        values ('${clientIp!""}', '${visitUrl!""}', '${visitParam!""}', 1, '${operationTime?c}', now())
+    ]]>
+    </sql>
+    
+    <sql id="getSentence" description="获取句子"> 
+    <![CDATA[
+        select sentence, provenance
+        from t_sentence
+    ]]>
+    </sql>
+    
+</sqls>

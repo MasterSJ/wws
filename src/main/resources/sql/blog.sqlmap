@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="insertBlog" description="写博客"> 
+    <![CDATA[
+        insert into t_blog_info (blog_title, blog_text, blog_html, user_name,
+        pseudonym_id, pseudonym_name, is_visible, operation_time, create_time) 
+        values ('${title}', '${textV}', '${htmlV}', '${userName}', 
+        '${pseudonymId}', '${pseudonymName}', '${isVisible}', UNIX_TIMESTAMP(now()), now())
+    ]]>
+    </sql>
+    
+    
+    <sql id="updateBlog" description="修改博客"> 
+    <![CDATA[
+        update t_blog_info 
+        set blog_title = '${title}',
+        	blog_text = '${textV}',
+        	blog_html = '${htmlV}',
+        	is_visible = '${isVisible}',
+        	operation_time = UNIX_TIMESTAMP(now())
+        where id = ${blogId}
+    ]]>
+    </sql>
+    
+    <sql id="getBlogInfo" description="查看博客内容"> 
+    <![CDATA[
+        select blog_title, blog_html
+		from t_blog_info
+		where id = '${blogId}'
+		and is_visible = 1
+    ]]>
+    </sql>
+    
+    <sql id="getTopBlog" description="查看推荐博客"> 
+    <![CDATA[
+        select id blog_id, blog_title, pseudonym_id, pseudonym_name, 
+        left(blog_text, 100) blog_text, blog_html,
+        date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time,
+        visit_num
+		from t_blog_info
+		where is_visible = 1
+		order by visit_num desc
+    ]]>
+    </sql>
+    
+    <sql id="getMyBlog" description="查看我的博客"> 
+    <![CDATA[
+        select id blog_id, blog_title, left(blog_text, 100) blog_text, blog_html,
+        date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time, 
+        pseudonym_id, pseudonym_name, category_id, category_name
+		from t_blog_info
+		where user_name = '${userName}'
+		order by operation_time desc
+    ]]>
+    </sql>
+    
+    <sql id="getBlogById" description="查看博客文本"> 
+    <![CDATA[
+        select id blog_id, blog_title, blog_text, blog_html, is_visible, pseudonym_id, pseudonym_name
+		from t_blog_info
+		where id = ${blogId}
+    ]]>
+    </sql>
+    
+    <sql id="getPseBlog" description="查看推荐博客"> 
+    <![CDATA[
+        select a.id blog_id, a.blog_title
+		from t_blog_info a
+		left JOIN t_blog_info b on b.pseudonym_id = a.pseudonym_id
+		where b.id = ${blogId}
+		and a.is_visible = 1
+		limit 10
+    ]]>
+    </sql>
+    
+</sqls>

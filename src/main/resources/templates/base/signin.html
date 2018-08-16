@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>WWS 登录</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <link href="/css/signin.css" rel="stylesheet">
+
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">用户名和密码</h2>
+        <label for="userName" class="sr-only">用户名</label>
+        <input type="email" id="userName" name="userName" class="form-control" placeholder="用户名" required autofocus>
+        <label for="userPwd" class="sr-only">密码</label>
+        <input type="password" id="userPwd" name="userPwd" class="form-control" placeholder="密码" required>
+        <div>
+          <label><input type="hidden"/></label>
+          <strong id="tip" style="color:#f00"></strong>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="signin">登录</button>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="register">注册&gt;&gt;</button>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/js/common-js.js"></script>
+  </body>
+  <script type="text/javascript">
+  	$("#signin").click(function(){
+  		showDataLoadingTip(window.document);
+  		$.ajax({
+		    url:'doSignin',
+		    type:'POST', //GET
+		    async:true,    //或false,是否异步
+		    data:{
+		        userName:$("#userName").val(),
+		        userPwd:$("#userPwd").val()
+		    },
+		    timeout:5000,    //超时时间
+		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+		    success:function(data,textStatus){
+		        if (data.status == "SUCCESS") {
+		        	var paramUrl = getUrlParam("target");
+		        	if (paramUrl == null) {
+		        		paramUrl = "user/info";
+		        	} else {
+		        		paramUrl = decodeURI(paramUrl);
+		        	}
+		        	window.location.href = paramUrl;
+		        } else {
+		        	showTip(data.msg);
+		        }
+		        closeDataLoadingTip(window.document);
+		    },
+		    error:function(data, textStatus){
+		    	showTip(textStatus);
+		        closeDataLoadingTip(window.document);
+		    }
+		});
+  	});
+	
+	function showTip(message) {
+    	var $tip = $('#tip');
+    	$tip.stop(true).text(message).fadeIn(500).delay(3000).fadeOut(500);
+	}
+	
+  	$("#register").click(function(){
+  		window.location.href="showRegister";
+  	});
+  </script>
+</html>

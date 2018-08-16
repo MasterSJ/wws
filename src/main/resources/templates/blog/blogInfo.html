@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>WWS 学习笔记</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+	<link href="/css/navbar.css" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <#include "/common_page/navbar.html">
+      <div class="blog-header">
+      
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-9 col-md-9 col-xs-9  blog-main">
+		  <h1 class="text-center">${blogTitle}</h1>
+		  <div>&nbsp;</div>
+          <div class="blog-post" >
+          ${blogHtml}
+          </div><!-- /.blog-post -->
+
+
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3  blog-sidebar">
+          <div class="sidebar-module">
+            <h4>TA的其他笔记</h4>
+            <ol class="list-unstyled">
+              <#if pseBlogs??>
+              <#list pseBlogs as pseBlog>
+              	<li><a href="/blog/info/${pseBlog.blog_id}">${pseBlog.blog_title}</a></li>
+              </#list>
+              </#if>
+            </ol>
+          </div>
+          <!-- <div class="sidebar-module">
+            <h4>其他分类</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">文学</a></li>
+              <li><a href="#">原创</a></li>
+              <li><a href="#">计算机</a></li>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+    </footer>
+  </body>
+</html>
+<script type="text/javascript">
+$("#blogPage").addClass("active");
+</script>

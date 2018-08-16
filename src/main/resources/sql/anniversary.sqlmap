@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="selectAnniversaries" description="查看用户纪念日信息"> 
+    <![CDATA[
+        SELECT id, date_type, anniversary_month, anniversary_date, remind_interval, 
+        remind_email, remind_content
+        FROM t_anniversary_remind
+        WHERE 1 = 1
+        <#if userName?? && userName !="">
+            and user_name = '${userName}'
+        </#if>
+        <#if id?? && id !="">
+            and id = '${id}'
+        </#if>
+    ]]>
+    </sql>
+    
+    <sql id="insertAnniversaries" description="新增用户纪念日信息"> 
+    <![CDATA[
+        INSERT INTO t_anniversary_remind
+        (user_name, date_type, anniversary_month, anniversary_date, remind_interval, 
+        remind_email, remind_content, create_time, update_time) VALUES ('${userName}', 
+        '${dateType}', '${anniversaryMonth}', '${anniversaryDate}', '${remindInterval}', 
+        '${remindEmail}', '${remindContent}', now(), now())
+    ]]>
+    </sql>
+    
+    <sql id="updateAnniversaries" description="修改用户纪念日信息"> 
+    <![CDATA[
+        UPDATE t_anniversary_remind
+        SET date_type = '${dateType}', 
+        anniversary_month = '${anniversaryMonth}', 
+        anniversary_date = '${anniversaryDate}', 
+        remind_interval = ${remindInterval}, 
+        remind_email = '${remindEmail}', 
+        remind_content = '${remindContent}'
+        WHERE user_name = '${userName}'
+        and id = '${id}'
+    ]]>
+    </sql>
+    
+    <sql id="selectNeedRemindInfo" description="查看要提醒的纪念日信息"> 
+    <![CDATA[
+        SELECT id, date_type, anniversary_month, anniversary_date, remind_interval, 
+        remind_email, remind_content
+        FROM t_anniversary_remind
+        WHERE concat(anniversary_month, anniversary_date) = '${anniversaryMonthDate}'
+        and remind_interval = ${remindInterval}
+    ]]>
+    </sql>
+    
+</sqls>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="login" description="登录"> 
+    <![CDATA[
+        SELECT 
+            user_name,
+            user_pwd,
+            ifnull(real_name, '') real_name,
+            ifnull(email, '') email,
+            ifnull(mobile, '') mobile,
+            ifnull(nike_name, '') nike_name,
+            ifnull(resume, '') resume,
+            ifnull(date_format(birthday,'%Y-%m-%d'), '') birthday
+        from t_user
+        where user_name = '${userName}'
+        and user_pwd = '${userPwd}'
+    ]]>
+    </sql>
+    
+    <sql id="selectExistsUser" description="检查用户名是否存在"> 
+    <![CDATA[
+        SELECT 
+            1
+        from t_user
+        where user_name = '${userName}'
+    ]]>
+    </sql>
+    
+    <sql id="register" description="注册"> 
+    <![CDATA[
+        insert into t_user (user_name, user_pwd)
+        values('${userName}', '${userPwd}')
+    ]]>
+    </sql>
+    
+    <sql id="selectExistsPseudonym" description="检查笔名是否存在"> 
+    <![CDATA[
+        SELECT 
+            1
+        from t_pseudonym
+        where pseudonym = '${pseudonym}'
+    ]]>
+    </sql>
+    
+    <sql id="selectUserPseudonym" description="获取用户绑定笔名"> 
+    <![CDATA[
+        SELECT id as pseudonym_id,
+            pseudonym
+        from t_pseudonym
+        where user_name = '${userName}'
+    ]]>
+    </sql>
+    
+    <sql id="grabPseudonym" description="登记笔名"> 
+    <![CDATA[
+        insert into t_pseudonym (pseudonym, user_name, create_time)
+        values('${pseudonym}', '${userName}', now())
+    ]]>
+    </sql>
+    
+    <sql id="checkPseudonymToken" description="检查笔名口令"> 
+    <![CDATA[
+        SELECT 
+            1
+        from t_pseudonym
+        where pseudonym = '${fromName}'
+        and token = '${fromPwd}'
+    ]]>
+    </sql>
+    
+    <sql id="updateUserInfo" description="修改用户信息"> 
+    <![CDATA[
+        update t_user 
+        set email = '${email}',
+        real_name = '${realName}',
+        mobile = '${mobile}',
+        nike_name = '${nikeName}',
+        resume = '${resume}',
+        birthday = '${birthday}'
+        where user_name = '${userName}'
+    ]]>
+    </sql>
+    
+</sqls>

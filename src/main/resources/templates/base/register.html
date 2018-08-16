@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>WWS 注册</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/css/signin.css" rel="stylesheet">
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">注册基本信息</h2>
+        <label for="userName" class="sr-only">用户名</label>
+        <input type="email" id="userName" name="userName" class="form-control" placeholder="用户名" required autofocus>
+        <label for="userPwd" class="sr-only">密码</label>
+        <input type="password" id="userPwd" name="userPwd" class="form-control" placeholder="密码" required>
+        <label for="reUserPwd" class="sr-only">重复密码</label>
+        <input type="password" id="reUserPwd" name="reUserPwd" class="form-control" placeholder="重复密码" required>
+        <label for="pseudonym" class="sr-only">默认笔名（博文的署名）</label>
+        <input type="text" id="pseudonym" name="pseudonym" class="form-control" placeholder="默认笔名（博文的署名）" required>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="register">注册</button>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+  <script type="text/javascript">
+  	$("#register").click(function(){
+  		$.ajax({
+		    url:'doRegister',
+		    type:'POST', //GET
+		    async:true,    //或false,是否异步
+		    data:{
+		        userName:$("#userName").val(),
+		        userPwd:$("#userPwd").val(),
+		        reUserPwd:$("#reUserPwd").val(),
+		        pseudonym:$("#pseudonym").val()
+		    },
+		    timeout:5000,    //超时时间
+		    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+		    success:function(data,textStatus){
+		    	console.info(data);
+		        if (data.status == "SECCESS") {
+		        	window.location.href = "/user/info";
+		        } else {
+		        	showTip(data.msg);
+		        }
+		    }
+		});
+  	});
+	
+	function showTip(message) {
+    	var $tip = $('#tip');
+    	$tip.stop(true).text(message).fadeIn(500).delay(3000).fadeOut(500);
+	}
+  </script>
+</html>

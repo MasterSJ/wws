@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="insertRunLog" description="写执行日志"> 
+    <![CDATA[
+        INSERT INTO t_run_log
+        (log_type, log_desc, params, log_result, error_msg, operation_time, create_time) 
+        VALUES 
+        ('${logType!""}', '${logDesc!""}', '${params!""}', '${logResult!""}', '${errorMsg!""}', '${operationTime!""}', now())
+    ]]>
+    </sql>
+    
+</sqls>

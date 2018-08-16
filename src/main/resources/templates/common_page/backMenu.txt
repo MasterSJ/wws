@@ -1,0 +1,16 @@
+<div class="col-sm-2 sidebar">
+  <ul class="nav nav-sidebar">
+    <li id="userInfoLi"><a href="/user/info">个人信息 </a></li>
+    <li id="pseudonymInfoLi"><a href="/user/showBindPseudonym">绑定笔名</a></li>
+    <li id="anniversaryRemindLi"><a href="/showAnniversaryRemind">纪念日提醒</a></li>
+  </ul>
+  <ul class="nav nav-sidebar">
+    <li id="blogCategoryLi"><a href="/user/blogCategory">笔名管理</a></li>
+    <li id="myBlogLi"><a href="/showMyBlog">我的笔记</a></li>
+    <li id="writeBlogLi"><a href="/showWriteBlog">笔记编辑</a></li>
+  </ul>
+  <ul class="nav nav-sidebar">
+    <li><a href="javascript:void(0)">我的纸条</a></li>
+    <li><a href="javascript:void(0)">写纸条</a></li>
+  </ul>
+</div>

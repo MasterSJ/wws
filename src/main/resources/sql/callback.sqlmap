@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sqls>
+	<sql id='insertRecord' description='插入回调记录'>
+	<![CDATA[
+		insert into t_callback_record (param, create_time) values ('${param!""}', now())
+	]]>
+	</sql>
+</sqls>

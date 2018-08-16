@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wws 笔记详情</title>
+    
+    <link rel="icon" href="/icon/favicon.ico">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
+</head>
+<body>
+<#include "/common_page/backTitle.txt">
+<div class="container-fluid">
+	<div class="row">
+        <#include "/common_page/backMenu.txt">
+        <div class="col-sm-8 col-sm-offset-2 main">
+			<div class="container col-md-12">
+				<div class="blog-header"><h1 class="text-center">${blogTitle!""}</h1></div>
+			    <div id="content" class="text-left">
+			        ${blogHtml!"<p>笔记内容</p>"}
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+    <script type="text/javascript">
+    	$("#myBlogLi").addClass("active");
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>何学 用户信息</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+	<link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	<link href="/css/bootstrap-select.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <#include "/common_page/backTitle.txt">
+
+    <div class="container-fluid">
+      <div class="row">
+        <#include "/common_page/backMenu.txt">
+        <div class="col-sm-8 col-sm-offset-2 main">
+			<div class="container">
+
+      <div class="blog-header">
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-9 col-md-9 col-xs-9 blog-main">
+          <ul>
+          <#if topBlogList??>
+          <#list topBlogList as blogMap>
+          <li class="col-md-12">
+          <h3><a href="/showMyBlogInfo?blogId=${blogMap.blog_id}">${blogMap.blog_title}</a></h3>
+          <p>${blogMap.blog_text}...</p>
+          <h6 class="text-left col-md-3">${blogMap.create_time!" "}</h6>
+          <h6 class="text-left col-md-3">${blogMap.pseudonym_name!" "}</h6>
+          <h6 class="text-left col-md-3">${blogMap.category_name!" "}</h6>
+          <h6 class="text-right col-md-3"><a href="/showWriteBlog?blogId=${blogMap.blog_id}">编辑</a></h6>
+          </li>
+          </#list>
+          </#if>
+          </ul>
+          <ul class="pagination">
+            <li><a href="javascript:jump(-10);">上十页</a></li>
+            <li><a href="javascript:jump(-1);">上一页</a></li>
+            <li class="active"><a href="javascript:void(0);">第${_page!1}页</a></li>
+            <li><a href="javascript:jump(1);">下一页</a></li>
+            <li><a href="javascript:jump(10);">下十页</a></li>
+          </ul>
+          <form action="/showMyBlog" method="POST">
+          	<input id="_page" name="_page" type="hidden" value="${_page!1}">
+          </form>
+
+        </div><!-- /.blog-main -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+        
+        
+        
+      </div>
+    </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/common-js.js"></script>
+	<script src="/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/js/bootstrap-select.min.js"></script>
+  </body>
+  <script type="text/javascript">
+  $("#myBlogLi").addClass("active");
+  
+  function jump(pageNum){
+	    var curPage = $('#_page').val();
+	    if (parseInt(curPage) + parseInt(pageNum) <= 0) {
+	        $('#_page').val(1);
+	    } else {
+	        $('#_page').val(parseInt(curPage) + parseInt(pageNum));
+	    }
+	    $("form").submit();
+	}
+  </script>
+</html>

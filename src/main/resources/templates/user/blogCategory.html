@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>笔名管理</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+	<link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	<link href="/css/bootstrap-select.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <#include "/common_page/backTitle.txt">
+
+    <div class="container-fluid">
+      <div class="row">
+        <#include "/common_page/backMenu.txt">
+        <div class="col-sm-8 col-sm-offset-2 main">
+
+          <h2 class="sub-header">笔名信息</h2>
+          <div class="table-responsive" id="showDiv">
+			<ul class="list-group col-sm-12 col-md-9 col-lg-9">
+			    <#list pseudonyms as x>
+			    <li class="list-group-item">
+			        <span>笔名：</span><span>${x["pseudonym"]}</span>
+			    </li>
+			    </#list>
+			</ul>
+			
+		  </div>
+		  <strong id="tip" style="color:#f00"></strong>
+		</div>
+      </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/common-js.js"></script>
+	<script src="/js/bootstrap-datetimepicker.min.js"></script>
+	<script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script src="/js/bootstrap-select.min.js"></script>
+  </body>
+  
+  <script type="text/javascript">
+  $("#blogCategoryLi").addClass("active");
+  
+  $("#add").click(function(){
+	  if ($("#add").val() == "绑定笔名") {
+		  $("#add").val("取消");
+		  $(".list-group").append("<li id='newPseuLi' class='list-group-item'><span>新笔名：</span><input type='text' id='newPseu' /></li>");
+		  $("#add").parent().append("<input type='button' id='save' class='btn  btn-primary' onClick='save()' value='保存'/>");
+	  } else {
+		  $("#add").val("绑定笔名");
+		  $("#newPseuLi").remove();
+	  }
+	  
+  });
+  
+  function save() {
+	  var pseData = {};
+	  pseData.pseudonym = $("#newPseu").val();
+	  $.ajax({
+          url:'/user/doBindPseudonym',
+          type:'POST', //GET
+          async:true,    //或false,是否异步
+          data:JSON.stringify(pseData),
+          timeout:5000,    //超时时间
+          dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          contentType:'application/json',
+          success:function(data,textStatus){
+        	  console.info(data);
+              if (data.status == "SUCCESS") {
+                  window.location.reload();
+              } else {
+                  showTip(data.msg);
+              }
+          },
+          error:function(data,textStatus){
+          	showTip(textStatus);
+          }
+      });
+  }
+  
+  function showTip(message) {
+	var $tip = $('#tip');
+	$tip.stop(true).text(message).fadeIn(500).delay(3000).fadeOut(500);
+  }
+  </script>
+</html>

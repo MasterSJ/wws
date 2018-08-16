@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="getMessageBoard" description="查看留言板内容"> 
+    <![CDATA[
+        SELECT 
+            to_name, content, from_name
+        from t_message_board
+    ]]>
+    </sql>
+    
+    <sql id="insertMessageBoard" description="新增留言"> 
+    <![CDATA[
+        insert into t_message_board (to_name, content, from_name, create_time)
+        values('${toName}', '${content}', '${fromName}', now())
+    ]]>
+    </sql>
+    
+</sqls>

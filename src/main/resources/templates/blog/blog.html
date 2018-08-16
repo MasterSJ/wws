@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>WWS 学习笔记</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/navbar.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <link href="/css/blog.css" rel="stylesheet">
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+
+  </head>
+
+  <body>
+
+
+    <div class="container">
+	  <#include "/common_page/navbar.html">
+      <div class="blog-header">
+      <h3 class="text-center">笔记首页</h3>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-xs-12 blog-main">
+          <ul>
+          <#if topBlogList??>
+          <#list topBlogList as blogMap>
+          <li>
+          <h3><a href="/blog/info/${blogMap.blog_id}">${blogMap.blog_title}</a></h3>
+          <h4>${blogMap.blog_text}...</h4>
+          <div class="col-sm-12 col-md-12 col-xs-12">
+          <h6 class="text-left col-md-2">浏览[${blogMap.visit_num}]</h6>
+          <h6 class="text-left col-md-2">${blogMap.create_time}</h6>
+          <h6 class="text-right col-md-8">${blogMap.pseudonym_name}</h6>
+          </div>
+          </li>
+          </#list>
+          <#else>
+          <li>没有数据了</li>
+          </#if>
+          </ul>
+          <ul class="pagination">
+            <li><a href="javascript:jump(-10);">上十页</a></li>
+            <li><a href="javascript:jump(-1);">上一页</a></li>
+            <li class="active"><a href="javascript:void(0);">第${_page!1}页</a></li>
+            <li><a href="javascript:jump(1);">下一页</a></li>
+            <li><a href="javascript:jump(10);">下十页</a></li>
+          </ul>
+          <form action="/showBlog" method="POST">
+          	<input id="_page" name="_page" type="hidden" value="${_page!1}">
+          </form>
+          
+        </div><!-- /.blog-main -->
+<!--
+        <div class="col-sm-2 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module">
+            <h4>笔记推荐</h4>
+            <ol class="list-unstyled">
+              <li><a href="javascript:void(0)">笔记标题</a></li>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>其他分类</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">文学</a></li>
+              <li><a href="#">原创</a></li>
+              <li><a href="#">计算机</a></li>
+            </ol>
+          </div>
+           
+        </div>
+-->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>
+      </p>
+    </footer>
+
+
+  </body>
+</html>
+<script type="text/javascript">
+$("#blogPage").addClass("active");
+
+function jump(pageNum){
+    var curPage = $('#_page').val();
+    if (parseInt(curPage) + parseInt(pageNum) <= 0) {
+        $('#_page').val(1);
+    } else {
+        $('#_page').val(parseInt(curPage) + parseInt(pageNum));
+    }
+    $("form").submit();
+}
+</script>

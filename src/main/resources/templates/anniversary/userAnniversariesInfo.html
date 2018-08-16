@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/icon/favicon.ico">
+
+    <title>何学 纪念日信息</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <#include "/common_page/backTitle.txt">
+
+    <div class="container-fluid">
+      <div class="row">
+        <#include "/common_page/backMenu.txt">
+        <div class="col-sm-8 col-sm-offset-2 main">
+          <div class="table-responsive" id="showDiv">
+            <table class="table">
+            <caption>纪念日提醒</caption>
+	           <thead>
+	              <tr>
+	                 <th>纪念日</th>
+                     <th>提前提醒天数</th>
+                     <th>提醒信息接收邮箱</th>
+                     <th>提醒内容</th>
+                     <th>操作</th>
+	              </tr>
+	           </thead>
+	           <tbody>
+	              <#list anniversaries as x>
+	              <tr>
+	                 <td>${x["anniversary_month"]}${x["anniversary_date"]}</td>
+                     <td>${x["remind_interval"]}</td>
+                     <td>${x["remind_email"]}</td>
+                     <td>${x["remind_content"]}</td>
+                     <td><a data-toggle="modal" data-target="#subModal"
+                        href="editAnniversaryRemind?id=${x.id?c}">编辑</a></td>
+	              </tr>
+	              </#list>
+	           </tbody>
+	        </table>
+	        <a class="btn btn-primary" data-toggle="modal" data-target="#subModal"
+                        href="editAnniversaryRemind">新增</a>
+          </div>
+          <strong id="tip" style="color:#f00"></strong>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="subModal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true"
+        data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/js/ie-emulation-modes-warning.js"></script>
+    <script src="/js/common-js.js"></script>
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/js/bootstrap-select.min.js"></script>
+  </body>
+  
+  <script type="text/javascript">
+  $("#anniversaryRemindLi").addClass("active");
+  
+
+  $("#subModal").on("hidden.bs.modal", function() {
+	    $(this).removeData("bs.modal");
+	    window.location.reload();
+  });
+  
+
+  </script>
+</html>

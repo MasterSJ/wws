@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wws.mapper.BaseMapper" >
+
+    <insert id="executeInsert" parameterType="String">
+        ${_parameter}
+    </insert>
+    
+    <delete id="executeDelete" parameterType="String">
+        ${_parameter}
+    </delete>
+    
+    <update id="executeUpdate" parameterType="String">
+        ${_parameter}
+    </update>
+    
+    <select id="executeQuery" resultType="java.util.HashMap" parameterType="String">
+        ${_parameter}
+    </select>
+    
+    <select id="executeQueryReturnLinked" resultType="java.util.LinkedHashMap" parameterType="String">
+        ${_parameter}
+    </select>
+    
+    <select id="getRecordCount" resultType="java.util.HashMap" parameterType="String">
+        SELECT COUNT(*) recordCount FROM ( ${_parameter} ) a
+    </select>
+  
+</mapper>
