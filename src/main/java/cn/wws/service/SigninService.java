@@ -34,9 +34,7 @@ public class SigninService {
 	 */
 	public boolean login(String userName, String pwd) throws Exception {
 		boolean ret = false;
-		System.out.println("登录-传入的用户名"+userName+"  密码"+pwd);
 		pwd = EnDecryptUtil.encrypt(pwd);
-        System.out.println("登录-加密之后的用户名"+userName+"  密码"+pwd);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userName", userName);
 		map.put("userPwd", pwd);
