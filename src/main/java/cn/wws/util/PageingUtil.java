@@ -6,10 +6,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.wws.controller.CallbackController;
-
 public class PageingUtil {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CallbackController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PageingUtil.class);
 	  
 	/**
      * @Description 获取分页参数.

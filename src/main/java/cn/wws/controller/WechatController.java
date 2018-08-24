@@ -18,9 +18,9 @@ import com.alibaba.fastjson.JSONObject;
 import cn.wws.service.BaseService;
 
 @Controller
-@RequestMapping("/allow")  
-public class CallbackController {
-	  private static final Logger LOGGER = LoggerFactory.getLogger(CallbackController.class);
+@RequestMapping("/wechat")  
+public class WechatController {
+	  private static final Logger LOGGER = LoggerFactory.getLogger(WechatController.class);
 	  @Autowired
 	  BaseService service;
 	  
