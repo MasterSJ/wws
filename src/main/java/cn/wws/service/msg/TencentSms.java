@@ -106,7 +106,8 @@ public class TencentSms {
         } else {
             sb.append(remindInterval).append("天后是");
         }
-        sb.append(monthDate).append("，是您设置的纪念日，提醒内容：").append(remindContent).append("。回T退订。") ;
+        sb.append(monthDate).append("，是一个特殊的日子，给你一点提示：").append(remindContent).append("。回T退订。") ;
+        //sb.append(monthDate).append("，是您设置的纪念日，提醒内容：").append(remindContent).append("。回T退订。") ;
         return sb.toString();
     }
 }

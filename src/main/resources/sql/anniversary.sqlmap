@@ -4,7 +4,7 @@
     <sql id="selectAnniversaries" description="查看用户纪念日信息"> 
     <![CDATA[
         SELECT id, date_type, anniversary_month, anniversary_date, remind_interval, 
-        remind_email, remind_content
+        remind_email, remind_mobile, remind_content
         FROM t_anniversary_remind
         WHERE 1 = 1
         <#if userName?? && userName !="">
@@ -20,9 +20,9 @@
     <![CDATA[
         INSERT INTO t_anniversary_remind
         (user_name, date_type, anniversary_month, anniversary_date, remind_interval, 
-        remind_email, remind_content, create_time, update_time) VALUES ('${userName}', 
+        remind_email, remind_mobile, remind_content, create_time, update_time) VALUES ('${userName}', 
         '${dateType}', '${anniversaryMonth}', '${anniversaryDate}', '${remindInterval}', 
-        '${remindEmail}', '${remindContent}', now(), now())
+        '${remindEmail}', '${remindMobile!""}', '${remindContent}', now(), now())
     ]]>
     </sql>
     
@@ -34,7 +34,8 @@
         anniversary_date = '${anniversaryDate}', 
         remind_interval = ${remindInterval}, 
         remind_email = '${remindEmail}', 
-        remind_content = '${remindContent}'
+        remind_content = '${remindContent}',
+        remind_mobile = '${remindMobile}'
         WHERE user_name = '${userName}'
         and id = '${id}'
     ]]>

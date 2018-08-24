@@ -134,6 +134,10 @@
           </span>
       </div>
       <div class="form-group">
+          <label class="col-sm-3 control-label">提醒信息接收手机</label>
+          <span class="col-sm-9"><input type='text' id="remindMobile" class="form-control" value=${remind_mobile!""}></span>
+      </div>
+      <div class="form-group">
           <label class="col-sm-3 control-label">提醒信息接收邮箱</label>
           <span class="col-sm-9"><input type='text' id="remindEmail" class="form-control" value=${remind_email!""}></span>
       </div>
@@ -266,6 +270,7 @@
       param.anniversaryDate = $("#anniversaryDate").val();
       param.remindInterval = $("#remindInterval").val();
       param.remindEmail = $("#remindEmail").val();
+      param.remindMobile = $("#remindMobile").val();
       param.remindContent = $("#remindContent").val();
       param.dateType = $("#dateType").val();
       $.ajax({
