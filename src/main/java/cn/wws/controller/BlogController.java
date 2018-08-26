@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -26,6 +27,7 @@ import cn.wws.entity.ReturnResult;
 import cn.wws.entity.User;
 import cn.wws.service.BaseService;
 import cn.wws.service.BlogService;
+import cn.wws.util.Base64Util;
 import cn.wws.util.BusiRulesUtils;
 
 
@@ -42,6 +44,7 @@ public class BlogController extends BaseController{
 		  Map<String, Integer> pagingParam = getPagingParam(request, model);
 		  
 		  List<Map<String, String>> list = baseService.executeLimitQuery("blog.getTopBlog", null, pagingParam);
+		  blogService.decodeBlogBase64(list);
 		  if (list.size() >= 1) {
 			  model.addAttribute("topBlogList", list);
 			  //StringEscapeUtils.unescapeHtml4((String)blogMap.get("blog_html")));
@@ -65,6 +68,7 @@ public class BlogController extends BaseController{
 		  Map<String, String> map = new HashMap<String, String>();
 		  map.put("userName", user.getUserName());
 		  List<Map<String, Object>> list = baseService.executeLimitQuery("blog.getMyBlog", map, pagingParam);
+		  blogService.decodeBlogBase64(list);
 		  if (list.size() >= 1) {
 			  model.addAttribute("topBlogList", list);
 			  //StringEscapeUtils.unescapeHtml4((String)blogMap.get("blog_html")));
@@ -81,6 +85,7 @@ public class BlogController extends BaseController{
 		  Map<String, String> map = new HashMap<String, String>();
 		  map.put("blogId", blogId);
 		  List<Map<String, Object>> list = baseService.executeQuery("blog.getBlogById", map);
+		  blogService.decodeBlogBase64(list);
 		  if (list.size() == 1) {
 			  model.addAttribute("blogId", list.get(0).get("blog_id"));
 			  model.addAttribute("blogTitle", list.get(0).get("blog_title"));
@@ -103,6 +108,7 @@ public class BlogController extends BaseController{
 		  Map<String, String> map = new HashMap<String, String>();
 		  map.put("blogId", blogId);
 		  List<Map<String, Object>> list = baseService.executeQuery("blog.getBlogById", map);
+		  blogService.decodeBlogBase64(list);
 		  if (list.size() == 1) {
 			  model.addAttribute("blogId", list.get(0).get("blog_id"));
 			  model.addAttribute("blogTitle", list.get(0).get("blog_title"));
@@ -120,8 +126,8 @@ public class BlogController extends BaseController{
 		  JSONObject ret = new JSONObject();
 		  PrintWriter out = response.getWriter();
 		  String blogId = BusiRulesUtils.getStringValue(request.getParameter("blogId"));
-		  String htmlV = BusiRulesUtils.getStringValue(request.getParameter("htmlV"));
-		  String textV = BusiRulesUtils.getStringValue(request.getParameter("textV"));
+		  String htmlV = Base64Util.encode(BusiRulesUtils.getStringValue(request.getParameter("htmlV")));
+		  String textV = Base64Util.encode(BusiRulesUtils.getStringValue(request.getParameter("textV")));
 		  String title = BusiRulesUtils.getStringValue(request.getParameter("title"));
 		  String pseudonymId = BusiRulesUtils.getStringValue(request.getParameter("pseudonymId"));
 		  String pseudonymName = BusiRulesUtils.getStringValue(request.getParameter("pseudonymName"));
@@ -156,6 +162,7 @@ public class BlogController extends BaseController{
 		  Map<String, Object> map = new HashMap<String, Object>();
 		  map.put("blogId", blogId);
 		  List<Map<String, Object>> list = baseService.executeQuery("blog.getBlogInfo", map);
+		  blogService.decodeBlogBase64(list);
 		  if (list.size() == 1) {
 			  Map<String, Object> blogMap = list.get(0);
 			  model.addAttribute("blogHtml", StringEscapeUtils.unescapeHtml4((String)blogMap.get("blog_html")));

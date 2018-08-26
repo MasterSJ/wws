@@ -35,7 +35,7 @@
     <sql id="getTopBlog" description="查看推荐博客"> 
     <![CDATA[
         select id blog_id, blog_title, pseudonym_id, pseudonym_name, 
-        left(blog_text, 100) blog_text, blog_html,
+        blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time,
         visit_num
 		from t_blog_info
@@ -46,7 +46,7 @@
     
     <sql id="getMyBlog" description="查看我的博客"> 
     <![CDATA[
-        select id blog_id, blog_title, left(blog_text, 100) blog_text, blog_html,
+        select id blog_id, blog_title, blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time, 
         pseudonym_id, pseudonym_name, category_id, category_name
 		from t_blog_info
