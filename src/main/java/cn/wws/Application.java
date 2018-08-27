@@ -68,7 +68,8 @@ public class Application extends SpringBootServletInitializer {
             		.excludePathPatterns("/error")
             		.excludePathPatterns("/logOut")
             		.excludePathPatterns("/showProfile")
-                    .excludePathPatterns("/allow/*");
+                    .excludePathPatterns("/allow/*")
+                    .excludePathPatterns("/wechat/*");
         }
     }
 }

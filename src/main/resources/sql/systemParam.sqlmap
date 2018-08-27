@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="getAllSystemParam" description="获取所有系统变量"> 
+    <![CDATA[
+        select param_code, param_value, date_format(updated_time, '%Y-%m-%d %H:%i:%s') updated_time
+        from t_system_param
+    ]]>
+    </sql>
+    
+    <sql id="updateSystemParam" description="修改系统变量"> 
+    <![CDATA[
+        update t_system_param
+        set param_value = '${paramValue}'
+        where param_code = '${paramCode}'
+    ]]>
+    </sql>
+    
+</sqls>
