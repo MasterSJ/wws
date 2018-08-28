@@ -40,7 +40,7 @@ public class ScheduleManager {
         }
         lastRefreshTime = dateUpdateTime.getTime();
         long longCurrentTime = System.currentTimeMillis();
-        if (longCurrentTime - lastRefreshTime >= 110 * 60 * 1000) {
+        if (longCurrentTime - lastRefreshTime >= 100 * 60 * 1000) {
             LOGGER.info("已经满足刷新access_token时间条件，可以刷新lastRefreshTime={},longCurrentTime={}", lastRefreshTime, longCurrentTime);
             wechatOperateService.refreshAccessToken();
         } else {
