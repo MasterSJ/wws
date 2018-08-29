@@ -2,6 +2,13 @@ package cn.wws.service;
 
 import java.io.IOException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Joiner;
 
 import cn.wws.util.HttpExecutor;
 import cn.wws.util.PropertiesUtil;
@@ -60,4 +68,22 @@ public class WechatOperateService {
             e.printStackTrace();
         }
     }
+    
+    /**    
+     * @throws IOException 
+      * @throws ClientProtocolException 
+      * @Description: 通过code获取openid. 
+     */ 
+     public String getOpenIdByCode(String code) throws ClientProtocolException, IOException {
+         HttpClient httpClient = HttpClientBuilder.create().build();
+         String url = Joiner.on("").join("https://api.weixin.qq.com/sns/oauth2/access_token?appid=", PropertiesUtil.get("appid"),
+                 "&secret=", systemParamService.getParamValue("app_secret"), "&code=", code, "&grant_type=authorization_code");
+         HttpGet httpGet = new HttpGet(url);
+         HttpResponse httpResponse = httpClient.execute(httpGet);
+         HttpEntity httpEntity = httpResponse.getEntity();
+         String ret =  EntityUtils.toString(httpEntity, "UTF-8");
+         JSONObject retJson = JSONObject.parseObject(ret);
+         LOGGER.debug("通过code获取openid接口，返回数据retJson={}", retJson);
+         return retJson.getString("openid");
+     }
 }
