@@ -45,6 +45,7 @@ public class BlogController extends BaseController{
 		  
 		  List<Map<String, String>> list = baseService.executeLimitQuery("blog.getTopBlog", null, pagingParam);
 		  blogService.decodeBlogBase64(list);
+		  blogService.handleBlogShort(list);
 		  if (list.size() >= 1) {
 			  model.addAttribute("topBlogList", list);
 			  //StringEscapeUtils.unescapeHtml4((String)blogMap.get("blog_html")));
@@ -69,6 +70,7 @@ public class BlogController extends BaseController{
 		  map.put("userName", user.getUserName());
 		  List<Map<String, Object>> list = baseService.executeLimitQuery("blog.getMyBlog", map, pagingParam);
 		  blogService.decodeBlogBase64(list);
+		  blogService.handleBlogShort(list);
 		  if (list.size() >= 1) {
 			  model.addAttribute("topBlogList", list);
 			  //StringEscapeUtils.unescapeHtml4((String)blogMap.get("blog_html")));

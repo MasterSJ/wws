@@ -94,4 +94,13 @@ public class BlogService {
 			}
 		}
 	}
+	
+	public <T> void handleBlogShort(List<Map<String, T>> list) {
+        for (Map<String, T> map : list) {
+            if (map.get("blog_text") != null && ((String)map.get("blog_text")).length() > 200) {
+                String shortBlog = ((String)map.get("blog_text")).substring(0, 200);
+                map.put("blog_text", (T) (shortBlog + "..."));
+            }
+        }
+    }
 }
