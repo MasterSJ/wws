@@ -7,7 +7,7 @@
   <ul class="nav nav-sidebar">
     <li id="blogCategoryLi"><a href="/user/blogCategory">笔名管理</a></li>
     <li id="myBlogLi"><a href="/showMyBlog">我的笔记</a></li>
-    <li id="writeBlogLi"><a href="/showWriteBlog">笔记编辑</a></li>
+    <li id="writeBlogLi"><a href="/showWriteBlog">新增笔记</a></li>
   </ul>
   <ul class="nav nav-sidebar">
     <li><a href="javascript:void(0)">我的纸条</a></li>
