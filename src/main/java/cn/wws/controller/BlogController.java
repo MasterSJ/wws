@@ -41,8 +41,8 @@ public class BlogController extends BaseController{
 
 	  @RequestMapping("/showBlog")  
 	  public String showBlog(HttpServletRequest request,Model model){  
-		  Map<String, Integer> pagingParam = getPagingParam(request, model);
-		  
+		  Map<String, String> pagingParam = getPagingParam(request, model);
+		  pagingParam.put("_order", "visit_num desc");
 		  List<Map<String, String>> list = baseService.executeLimitQuery("blog.getTopBlog", null, pagingParam);
 		  blogService.decodeBlogBase64(list);
 		  blogService.handleBlogShort(list);
@@ -63,7 +63,8 @@ public class BlogController extends BaseController{
 	 */
 	@RequestMapping("/showMyBlog")  
 	public String showMyBlog(HttpServletRequest request,Model model) {
-		  Map<String, Integer> pagingParam = getPagingParam(request, model);
+		  Map<String, String> pagingParam = getPagingParam(request, model);
+		  pagingParam.put("_order", "operation_time DESC");
 		  
 		  User user = BusiRulesUtils.getSigninUser(request);
 		  Map<String, String> map = new HashMap<String, String>();

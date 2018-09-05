@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,14 +51,17 @@ public class BaseService<T> {
     }
     
     public List<Map<String, T>> executeLimitQuery(String sqlId, 
-            Map<String, ?> paramMap, Map<String,Integer> limitMap) {
+            Map<String, ?> paramMap, Map<String,String> limitMap) {
         String sql = SqlUtil.getSql(sqlId, paramMap);
         if (limitMap != null) {
-            int limitOffset = limitMap.get("_limitOffset");
-            int limitRows = limitMap.get("_limitRows");
+            String limitOffset = limitMap.get("_limitOffset");
+            String limitRows = limitMap.get("_limitRows");
             StringBuffer limitStr = new StringBuffer("select sub.* from (");
-            limitStr.append(sql).append(") sub limit ");
-            limitStr.append(limitOffset).append(",").append(limitRows);
+            limitStr.append(sql).append(") sub");
+            if (!StringUtils.isEmpty(limitMap.get("_order"))) {
+                limitStr.append(" order by ").append(limitMap.get("_order"));
+            }
+            limitStr.append(" limit ").append(limitOffset).append(",").append(limitRows);
             sql = limitStr.toString();
         }
         return mapper.executeQuery(sql);

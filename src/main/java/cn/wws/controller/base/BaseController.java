@@ -32,8 +32,8 @@ public class BaseController {
 		}
 	}
 	
-	protected Map<String, Integer> getPagingParam(HttpServletRequest request, Model model) {
-		Map<String, Integer> pagingParam = null;
+	protected Map<String, String> getPagingParam(HttpServletRequest request, Model model) {
+		Map<String, String> pagingParam = null;
 		String _page = request.getParameter("_page");
 		model.addAttribute("_page", _page);
 		if (Strings.isBlank(_page)) {

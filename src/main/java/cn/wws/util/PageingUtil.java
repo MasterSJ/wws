@@ -17,12 +17,12 @@ public class PageingUtil {
      * @param _interval 每页条数
      * @return 含offset和rows的map
      */
-    public static Map<String, Integer> getLimitMap(int _page, int _interval) {
-        Map<String, Integer> limitMap = new HashMap<String, Integer>();
+    public static Map<String, String> getLimitMap(int _page, int _interval) {
+        Map<String, String> limitMap = new HashMap<String, String>();
         int _limitOffset = (_page - 1) * _interval;
         int _limitRows = _interval;
-        limitMap.put("_limitOffset", _limitOffset);
-        limitMap.put("_limitRows", _limitRows);
+        limitMap.put("_limitOffset", String.valueOf(_limitOffset));
+        limitMap.put("_limitRows", String.valueOf(_limitRows));
         return limitMap;
     }
     
@@ -34,8 +34,8 @@ public class PageingUtil {
      * @param _interval 每页条数
      * @return 含offset和rows的map
      */
-    public static Map<String, Integer> getLimitMap(Object _page, Object _interval) {
-        Map<String, Integer> limitMap = new HashMap<String, Integer>();
+    public static Map<String, String> getLimitMap(Object _page, Object _interval) {
+        Map<String, String> limitMap = new HashMap<String, String>();
         try {
             int intPage = 1;/*默认页码*/
             int intInterval = 10;/*默认每页条数*/

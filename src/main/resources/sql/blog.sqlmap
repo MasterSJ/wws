@@ -40,7 +40,6 @@
         visit_num
 		from t_blog_info
 		where is_visible = 1
-		order by visit_num desc
     ]]>
     </sql>
     
@@ -48,10 +47,9 @@
     <![CDATA[
         select id blog_id, blog_title, blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time, 
-        pseudonym_id, pseudonym_name, category_id, category_name
+        pseudonym_id, pseudonym_name, category_id, category_name, operation_time
 		from t_blog_info
 		where user_name = '${userName}'
-		order by operation_time desc
     ]]>
     </sql>
     
