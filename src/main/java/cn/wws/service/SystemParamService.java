@@ -17,7 +17,7 @@ public class SystemParamService {
     /**
      * 初始化
      * */
-    public void init() {
+    private void init() {
         List<Map<String, String>> list = baseService.executeQuery("systemParam.getAllSystemParam", null);
         synchronized (SystemParamService.class) {
             systemParamMap.clear();
