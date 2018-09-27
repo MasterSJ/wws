@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import cn.wws.consts.WechatConfigConst;
 import cn.wws.service.SystemParamService;
 import cn.wws.service.WechatOperateService;
 
@@ -27,7 +28,7 @@ public class ScheduleManager {
     
     @Scheduled(fixedDelay = 1000 * 60 * 3)
     public void refreshAccessToken(){
-        String strUpdateTime = systemParamService.getUpdateTime("access_token");
+        String strUpdateTime = systemParamService.getUpdateTime(WechatConfigConst.ACCESS_TOKEN);
         Date dateUpdateTime = new Date();
         long lastRefreshTime = -1;
         try {
