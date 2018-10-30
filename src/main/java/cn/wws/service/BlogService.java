@@ -74,15 +74,23 @@ public class BlogService {
 	}
 	
 	public void encodeBlogBase64(List<Map<String, Object>> list) {
-		for (Map<String, Object> map : list) {
-			if (map.get("blog_text") != null) {
-				map.put("blog_text", Base64Util.encode((String)map.get("blog_text")));
-			}
-			if (map.get("blog_html") != null) {
-				map.put("blog_html", Base64Util.encode((String)map.get("blog_html")));
-			}
-		}
-	}
+        for (Map<String, Object> map : list) {
+            if (map.get("blog_text") != null) {
+                map.put("blog_text", Base64Util.encode((String)map.get("blog_text")));
+            }
+            if (map.get("blog_html") != null) {
+                map.put("blog_html", Base64Util.encode((String)map.get("blog_html")));
+            }
+        }
+    }
+	
+	public String encodeBlogBase64(String str) {
+        if (str != null) {
+            return Base64Util.encode(str);
+        } else {
+            return "";
+        }
+    }
 	
 	public <T> void decodeBlogBase64(List<Map<String, T>> list) {
 		for (Map<String, T> map : list) {

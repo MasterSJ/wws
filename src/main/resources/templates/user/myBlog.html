@@ -30,6 +30,19 @@
 			<div class="container">
 
       <div class="blog-header">
+      <form class="form-inline" role="form" action="showMyBlog">
+        <label for="author" class="sr-only">作者</label>
+        <input type="text" id="author" name="author" class="form-control" placeholder="作者" >
+        <label for="startTime" class="sr-only">起始时间</label>
+        <input type="text" id="startTime" name="startTime" class="form-control" placeholder="起始时间" >
+        <label for="endTime" class="sr-only">截止时间</label>
+        <input type="text" id="endTime" name="endTime" class="form-control" placeholder="截止时间"  >
+        <label for="title" class="sr-only">标题</label>
+        <input type="text" id="title" name="title" class="form-control" placeholder="标题"  >
+        <label for="content" class="sr-only">内容</label>
+        <input type="text" id="content" name="content" class="form-control" placeholder="内容"  >
+        <button class="btn  btn-primary " type="submit" id="search">查询</button>
+      </form>
       </div>
 
       <div class="row">

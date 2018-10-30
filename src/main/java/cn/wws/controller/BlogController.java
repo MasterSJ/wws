@@ -69,6 +69,16 @@ public class BlogController extends BaseController{
 		  User user = BusiRulesUtils.getSigninUser(request);
 		  Map<String, String> map = new HashMap<String, String>();
 		  map.put("userName", user.getUserName());
+          String author = request.getParameter("author");
+          map.put("author", author);
+          String startTime = request.getParameter("startTime");
+          map.put("startTime", startTime);
+          String endTime = request.getParameter("endTime");
+          map.put("endTime", endTime);
+          String title = request.getParameter("title");
+          map.put("title", title);
+          String content = request.getParameter("content");
+          map.put("content", blogService.encodeBlogBase64(content));
 		  List<Map<String, Object>> list = baseService.executeLimitQuery("blog.getMyBlog", map, pagingParam);
 		  blogService.decodeBlogBase64(list);
 		  blogService.handleBlogShort(list);

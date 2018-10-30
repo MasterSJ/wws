@@ -15,10 +15,10 @@
     <![CDATA[
         update t_blog_info 
         set blog_title = '${title}',
-        	blog_text = '${textV}',
-        	blog_html = '${htmlV}',
-        	is_visible = '${isVisible}',
-        	operation_time = UNIX_TIMESTAMP(now())
+            blog_text = '${textV}',
+            blog_html = '${htmlV}',
+            is_visible = '${isVisible}',
+            operation_time = UNIX_TIMESTAMP(now())
         where id = ${blogId}
     ]]>
     </sql>
@@ -26,9 +26,9 @@
     <sql id="getBlogInfo" description="查看博客内容"> 
     <![CDATA[
         select blog_title, blog_html
-		from t_blog_info
-		where id = '${blogId}'
-		and is_visible = 1
+        from t_blog_info
+        where id = '${blogId}'
+        and is_visible = 1
     ]]>
     </sql>
     
@@ -38,8 +38,8 @@
         blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time,
         visit_num
-		from t_blog_info
-		where is_visible = 1
+        from t_blog_info
+        where is_visible = 1
     ]]>
     </sql>
     
@@ -48,27 +48,42 @@
         select id blog_id, blog_title, blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time, 
         pseudonym_id, pseudonym_name, category_id, category_name, operation_time
-		from t_blog_info
-		where user_name = '${userName}'
+        from t_blog_info
+        where user_name = '${userName}'
+        <#if author?? && author !="">
+            and pseudonym_name = '${author}'
+        </#if>
+        <#if startTime?? && startTime !="">
+            and create_time >= '${startTime}'
+        </#if>
+        <#if endTime?? && endTime !="">
+            and date(create_time) <= '${endTime}'
+        </#if>
+        <#if title?? && title !="">
+            and blog_title like '%${title}%'
+        </#if>
+        <#if content?? && content !="">
+            and blog_text like '%${content}%'
+        </#if>
     ]]>
     </sql>
     
     <sql id="getBlogById" description="查看博客文本"> 
     <![CDATA[
         select id blog_id, blog_title, blog_text, blog_html, is_visible, pseudonym_id, pseudonym_name
-		from t_blog_info
-		where id = ${blogId}
+        from t_blog_info
+        where id = ${blogId}
     ]]>
     </sql>
     
     <sql id="getPseBlog" description="查看推荐博客"> 
     <![CDATA[
         select a.id blog_id, a.blog_title
-		from t_blog_info a
-		left JOIN t_blog_info b on b.pseudonym_id = a.pseudonym_id
-		where b.id = ${blogId}
-		and a.is_visible = 1
-		limit 10
+        from t_blog_info a
+        left JOIN t_blog_info b on b.pseudonym_id = a.pseudonym_id
+        where b.id = ${blogId}
+        and a.is_visible = 1
+        limit 10
     ]]>
     </sql>
     
