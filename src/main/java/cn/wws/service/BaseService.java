@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.wws.mapper.BaseMapper;
+import cn.wws.util.MapperUtil;
 import cn.wws.util.SqlUtil;
 
 
@@ -36,6 +37,17 @@ public class BaseService<T> {
     public List<Map<String, T>> executeQuery(String sqlId, Map<String, ?> paramMap) {
         String sql = SqlUtil.getSql(sqlId, paramMap);
         return mapper.executeQuery(sql);
+    }
+    
+    public List<T> executeQuery(String sqlId, Map<String, ?> paramMap, Class<T> t) {
+        String sql = SqlUtil.getSql(sqlId, paramMap);
+        List<Map<String, Object>> list = mapper.executeQuery(sql);
+        try{
+            return MapperUtil.getInstance().mapperList(list, t);
+        } catch(Exception e) {
+            return null;
+        }
+        
     }
     
     public Map<String, T> executeQuerySingle(String sqlId, Map<String, ?> paramMap) {
