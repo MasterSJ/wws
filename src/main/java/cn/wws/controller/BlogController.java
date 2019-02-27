@@ -42,7 +42,10 @@ public class BlogController extends BaseController{
 	  @RequestMapping("/showBlog")  
 	  public String showBlog(HttpServletRequest request,Model model){  
 		  Map<String, String> pagingParam = getPagingParam(request, model);
-		  pagingParam.put("_order", "visit_num desc");
+		  String order = request.getParameter("_order");
+		  pagingParam.put("_order", order + " desc");
+		  model.addAttribute("_order", order);
+		  
 		  List<Map<String, String>> list = baseService.executeLimitQuery("blog.getTopBlog", null, pagingParam);
 		  blogService.decodeBlogBase64(list);
 		  blogService.handleBlogShort(list);

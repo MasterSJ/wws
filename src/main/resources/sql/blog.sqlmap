@@ -37,7 +37,7 @@
         select id blog_id, blog_title, pseudonym_id, pseudonym_name, 
         blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time,
-        visit_num
+        visit_num, operation_time
         from t_blog_info
         where is_visible = 1
     ]]>

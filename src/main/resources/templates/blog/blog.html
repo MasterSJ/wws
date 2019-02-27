@@ -29,7 +29,7 @@
     <div class="container">
 	  <#include "/common_page/navbar.html">
       <div class="blog-header">
-      <h3 class="text-center">笔记首页</h3>
+      <h6>排序: <a href="javascript:orderBy('visit_num');">按浏览数</a> <a href="javascript:orderBy('operation_time');">按时间</a></h6>
       </div>
 
       <div class="row">
@@ -37,14 +37,13 @@
           <ul>
           <#if topBlogList??>
           <#list topBlogList as blogMap>
-          <li>
+          <li class="col-md-12">
           <h3><a href="/blog/info/${blogMap.blog_id}">${blogMap.blog_title}</a></h3>
-          <h4>${blogMap.blog_text}</h4>
-          <div class="col-sm-12 col-md-12 col-xs-12">
+          <p>${blogMap.blog_text}</p>
           <h6 class="text-left col-md-2">浏览[${blogMap.visit_num}]</h6>
           <h6 class="text-left col-md-2">${blogMap.create_time}</h6>
           <h6 class="text-right col-md-8">${blogMap.pseudonym_name}</h6>
-          </div>
+          
           </li>
           </#list>
           <#else>
@@ -59,7 +58,8 @@
             <li><a href="javascript:jump(10);">下十页</a></li>
           </ul>
           <form action="/showBlog" method="POST">
-          	<input id="_page" name="_page" type="hidden" value="${_page!1}">
+            <input id="_page" name="_page" type="hidden" value="${_page!1}">
+            <input id="_order" name="_order" type="hidden" value="${_order!'visit_num'}">
           </form>
           
         </div><!-- /.blog-main -->
@@ -104,5 +104,10 @@ function jump(pageNum){
         $('#_page').val(parseInt(curPage) + parseInt(pageNum));
     }
     $("form").submit();
+}
+
+function orderBy(order){
+	$('#_order').val(order);
+	$("form").submit();
 }
 </script>
