@@ -10,68 +10,114 @@
 
     <title>WWS 学习笔记</title>
 
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-	<link href="/css/navbar.css" rel="stylesheet">
-    <link href="/css/blog.css" rel="stylesheet">
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/ie-emulation-modes-warning.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+    <link href="/layui/css/layui.css" rel="stylesheet">
+    <link href="/css/mian.css" rel="stylesheet">
 
   </head>
 
-  <body>
-
-    <div class="container">
-      <#include "/common_page/navbar.html">
-      <div class="blog-header">
-      
+  <body class="lay-blog">
+  <div class="header">
+    <div class="header-wrap">
+      <h1 class="logo pull-left">
+        <a href="/showBlog">
+          <h4 style="color:#EEE">木车笔记</h4>
+        </a>
+      </h1>
+      <form class="layui-form blog-seach pull-left" action="">
+        <div class="layui-form-item blog-sewrap">
+          <div class="layui-input-block blog-sebox">
+            <i class="layui-icon layui-icon-search"></i>
+            <input type="text" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+          </div>
+        </div>
+      </form>
+      <div class="blog-nav pull-right">
+        <ul class="layui-nav pull-left">
+          <li class="layui-nav-item layui-this"><a href="/showBlog">首页</a></li>
+          <li class="layui-nav-item"><a href="/showProfile">关于</a></li>
+          <li class="layui-nav-item">
+	      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
+	      </li>
+        </ul>
+        <a href="#" class="personal pull-left">
+          <i class="layui-icon layui-icon-username"></i>
+        </a>
       </div>
-
-      <div class="row">
-
-        <div class="col-sm-9 col-md-9 col-xs-9  blog-main">
-		  <h1 class="text-center">${blogTitle}</h1>
-		  <div>&nbsp;</div>
-          <div class="blog-post" >
-          ${blogHtml}
-          </div><!-- /.blog-post -->
-
-
-
-        </div><!-- /.blog-main -->
-
-        <div class="col-sm-3  blog-sidebar">
-          <div class="sidebar-module">
-            <h4>TA的其他笔记</h4>
-            <ol class="list-unstyled">
-              <#if pseBlogs??>
-              <#list pseBlogs as pseBlog>
-              	<li><a href="/blog/info/${pseBlog.blog_id}">${pseBlog.blog_title}</a></li>
-              </#list>
-              </#if>
-            </ol>
+      <div class="mobile-nav pull-right" id="mobile-nav">
+        <a href="javascript:;">
+          <i class="layui-icon layui-icon-more"></i>
+        </a>
+      </div>
+    </div>
+    <ul class="pop-nav" id="pop-nav">
+      <li><a href="/showBlog">首页</a></li>
+      <li><a href="/showProfile">关于</a></li>
+      <li>
+      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
+      </li>
+    </ul>
+  </div>
+  <div class="container-wrap">
+    <div class="container container-message container-details">
+      <div class="contar-wrap">
+        <div class="item">
+          <div class="item-box  layer-photos-demo1 layer-photos-demo">
+            <h3><a href="details.html">${blogTitle}</a></h3>
+            <h5>最后更新：<span>${operationTime}</span></h5>
+            ${blogHtml}
+            <div class="count layui-clear">
+              <span class="pull-left">阅读 <em>${visitNum}</em></span>
+              <span  id="likeButton" class="pull-right like"><i class="layui-icon layui-icon-praise"></i><em>${likeNum}</em></span>
+            </div>
           </div>
-          <!-- <div class="sidebar-module">
-            <h4>其他分类</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">文学</a></li>
-              <li><a href="#">原创</a></li>
-              <li><a href="#">计算机</a></li>
-            </ol>
+        </div>
+        <a name="comment"> </a>
+        <!--<div class="comt layui-clear">
+          <a href="javascript:;" class="pull-left">评论</a>
+          <a href="comment.html" class="pull-right">写评论</a>
+        </div>
+        <div id="LAY-msg-box">
+          <div class="info-item">
+            <img class="info-img" src="res/static/images/info-img.png" alt="">
+            <div class="info-text">
+              <p class="title count">
+                <span class="name">一片空白</span>
+                <span class="info-img like"><i class="layui-icon layui-icon-praise"></i>5.8万</span>
+              </p>
+              <p class="info-intr">父爱如山，不善表达。回想十多年前，总记得父亲有个宽厚的肩膀，小小的自己跨坐在上面，越过人山人海去看更广阔的天空，那个时候期望自己有一双翅膀，能够像鸟儿一样飞得高，看得远。虽然父亲有时会和自己开玩笑，但在做错事的时候会受到严厉的训斥。父亲有双粗糙的大手掌。</p>
+            </div>
           </div>
-        </div><!-- /.blog-sidebar -->
+          <div class="info-item">
+            <img class="info-img" src="res/static/images/info-img.png" alt="">
+            <div class="info-text">
+              <p class="title count">
+                <span class="name">一片空白</span>
+                <span class="info-img like"><i class="layui-icon layui-icon-praise"></i>5.8万</span>
+              </p>
+              <p class="info-intr">父爱如山，不善表达。回想十多年前，总记得父亲有个宽厚的肩膀，小小的自己跨坐在上面，越过人山人海去看更广阔的天空，那个时候期望自己有一双翅膀，能够像鸟儿一样飞得高，看得远。虽然父亲有时会和自己开玩笑，但在做错事的时候会受到严厉的训斥。父亲有双粗糙的大手掌。</p>
+            </div>
+          </div>
+        </div>-->
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>
+      <span><a href="http://www.miitbeian.gov.cn/">蜀ICP备18002214号</a></span>
+    </p>
+    <p><span>木车笔记</span></p>
+  </div>
 
-      </div><!-- /.row -->
-
-    </div><!-- /.container -->
-
-    <footer class="blog-footer">
-    </footer>
   </body>
 </html>
+<script src="/js/jquery.min.js"></script>
+<script src="/layui/layui.js"></script>
 <script type="text/javascript">
-$("#blogPage").addClass("active");
+
+    $("#likeButton").click(function(){
+        var num = $("#likeButton").children("em").text();
+        console.info(num)
+        $("#likeButton").children("em").text(Number(num)+1);
+        $.get("/likeFlag/${id}");
+    })
 </script>

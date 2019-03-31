@@ -40,14 +40,20 @@ public class SigninController {
 	
 	@RequestMapping("/doSignin")  
     public void doSignin(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
 		String userName = request.getParameter("userName");
 		String userPwd = request.getParameter("userPwd");
 		ReturnResult ret = new ReturnResult();
 		if (StringUtils.isBlank(userName)) {
 			ret.setFailMsg("用户名为空");
+			out.write(ret.toJsonString());
+			return;
 		}
 		if (StringUtils.isBlank(userPwd)) {
 			ret.setFailMsg("密码为空");
+			out.write(ret.toJsonString());
+			return;
 		}
 		boolean loginRet = signinService.login(userName, userPwd);
 		if (loginRet) {
@@ -55,8 +61,6 @@ public class SigninController {
 		} else {
 			ret.setFailMsg("用户名或密码错误");
 		}
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		out.write(ret.toJsonString());
     } 
 	

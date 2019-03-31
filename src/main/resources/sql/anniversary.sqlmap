@@ -51,4 +51,11 @@
     ]]>
     </sql>
     
+    <sql id="deleteAnniversary" description="删除纪念日"> 
+    <![CDATA[
+        DELETE FROM t_anniversary_remind
+        WHERE id = ${id}
+    ]]>
+    </sql>
+    
 </sqls>

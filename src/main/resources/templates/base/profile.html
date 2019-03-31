@@ -10,43 +10,73 @@
     <link rel="icon" href="/icon/favicon.ico">
 
     <title>wws简介</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/layui/css/layui.css" rel="stylesheet">
+    <link href="/css/mian.css" rel="stylesheet">
 
-    <link href="/css/navbar.css" rel="stylesheet">
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/ie-emulation-modes-warning.js"></script>
-
-    
   </head>
 
-  <body>
-    
-    <div class="container">
-      <#include "/common_page/navbar.html">
-      
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <div class="col-sm-12 col-md-12 col-xs-12">
-        <p class="pull-left">
-            由于在下是写JAVA后端的，所以前端只能搬个bootstrap的模板过来硬撑一下，界面方面就请大家多多包涵了。
-            本站是用下班之后的闲暇时间搭建的，主要用来分享一些技术总结，读书笔记，
-            当然也可能是生活感悟，心灵鸡汤（手动滑稽），如果你也有兴趣的话也可以在这里分享你的内容，在下在此翘首以盼（抱拳）。
-            后续如果有什么我觉得有趣的功能，也有可能会增加上来。
-        </p>
+  <body class="lay-blog">
+  <div class="header">
+    <div class="header-wrap">
+      <h1 class="logo pull-left">
+        <a href="/showBlog">
+          <h4 style="color:#EEE">木车笔记</h4>
+        </a>
+      </h1>
+      <form class="layui-form blog-seach pull-left" action="">
+        <div class="layui-form-item blog-sewrap">
+          <div class="layui-input-block blog-sebox">
+            <i class="layui-icon layui-icon-search"></i>
+            <input type="text" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+          </div>
         </div>
-        <p>
-          <a class="btn btn-lg btn-primary" href="/showBlog" target="view_window" role="button">看看笔记</a>
-        </p>
+      </form>
+      <div class="blog-nav pull-right">
+        <ul class="layui-nav pull-left">
+          <li class="layui-nav-item"><a href="/showBlog">首页</a></li>
+          <li class="layui-nav-item  layui-this"><a href="/showProfile">关于</a></li>
+          <li class="layui-nav-item">
+	      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
+	      </li>
+        </ul>
+        <a href="#" class="personal pull-left">
+          <i class="layui-icon layui-icon-username"></i>
+        </a>
       </div>
-    </div> <!-- /container -->
-
-
-    <script src="/js/ie10-viewport-bug-workaround.js"></script>
+      <div class="mobile-nav pull-right" id="mobile-nav">
+        <a href="javascript:;">
+          <i class="layui-icon layui-icon-more"></i>
+        </a>
+      </div>
+    </div>
+    <ul class="pop-nav" id="pop-nav">
+      <li><a href="/showBlog">首页</a></li>
+      <li><a href="/showProfile">关于</a></li>
+      <li>
+      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
+      </li>
+    </ul>
+  </div>
+  <div class="container-wrap">
+    <div class="container container-message container-details container-about">
+      <div class="contar-wrap">
+        <div class="item">
+          <div class="item-box">
+            <h3>关于</h3>
+            <p>本站是用下班之后的闲暇时间搭建的，主要用来分享一些技术总结，读书笔记，
+              当然也可能会写点生活感悟，发发牢骚。</p>
+            <div class="count layui-clear">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>
+      <span><a href="http://www.miitbeian.gov.cn/">蜀ICP备18002214号</a></span>
+    </p>
+    <p><span>木车笔记</span></p>
+  </div>
   </body>
 </html>
-<script type="text/javascript">
-$("#profilePage").addClass("active");
-</script>

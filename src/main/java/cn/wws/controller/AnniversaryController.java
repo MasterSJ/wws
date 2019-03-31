@@ -36,16 +36,39 @@ public class AnniversaryController extends BaseController{
         return "anniversary/userAnniversariesInfo"; 
     }
     
-    /**纪念日详情*/
+    /**编辑纪念日*/
     @RequestMapping("/editAnniversaryRemind")  
     public String editAnniversaryRemind(HttpServletRequest request,
             @RequestParam(required=false) String id, Model model) {
         if (StringUtils.isEmpty(id)) {
-            return "anniversary/anniversaryEdit";
+            return "anniversary/editAnniversariesInfo";
         }
         Map<String, String> map = anniversaryService.getAnniversaryById(id);
         model.addAllAttributes(map);
-        return "anniversary/anniversaryEdit"; 
+        return "anniversary/editAnniversariesInfo"; 
+    }
+    
+    /**删除纪念日*/
+    @RequestMapping("/delAnniversaryRemind") 
+    @ResponseBody
+    public ReturnResult delAnniversaryRemind(HttpServletRequest request,
+            @RequestParam int id) {
+    	ReturnResult rst = new ReturnResult();
+        if (id <= 0) {
+            rst.setFailMsg("参数异常！");
+            return rst;
+        }
+        int count = anniversaryService.deleteAnniversary(id);
+        if(count > 0){
+        	rst.setSuccess();
+        }
+        return rst; 
+    }
+    
+    /**添加纪念日*/
+    @RequestMapping("/addAnniversaryRemind")  
+    public String addAnniversaryRemind(HttpServletRequest request, Model model) {
+        return "anniversary/editAnniversariesInfo";
     }
     
     @RequestMapping("/anniversaryRemind/doEdit")  

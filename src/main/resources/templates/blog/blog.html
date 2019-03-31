@@ -6,95 +6,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/icon/favicon.ico">
 
     <title>WWS 学习笔记</title>
 
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/css/navbar.css" rel="stylesheet">
-    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <link href="/css/blog.css" rel="stylesheet">
-
+    <link href="/layui/css/layui.css" rel="stylesheet">
+	<link href="/css/mian.css" rel="stylesheet">
     <script src="/js/jquery.min.js"></script>
-    <script src="/js/ie-emulation-modes-warning.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/ie10-viewport-bug-workaround.js"></script>
 
   </head>
 
-  <body>
-
-
-    <div class="container">
-	  <#include "/common_page/navbar.html">
-      <div class="blog-header">
-      <h6>排序: <a href="javascript:orderBy('visit_num');">按浏览数</a> <a href="javascript:orderBy('operation_time');">按时间</a></h6>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-12 col-md-12 col-xs-12 blog-main">
-          <ul>
-          <#if topBlogList??>
-          <#list topBlogList as blogMap>
-          <li class="col-md-12">
-          <h3><a href="/blog/info/${blogMap.blog_id}">${blogMap.blog_title}</a></h3>
-          <p>${blogMap.blog_text}</p>
-          <h6 class="text-left col-md-2">浏览[${blogMap.visit_num}]</h6>
-          <h6 class="text-left col-md-2">${blogMap.create_time}</h6>
-          <h6 class="text-right col-md-8">${blogMap.pseudonym_name}</h6>
-          
-          </li>
-          </#list>
-          <#else>
-          <li>没有数据了</li>
-          </#if>
-          </ul>
-          <ul class="pagination">
-            <li><a href="javascript:jump(-10);">上十页</a></li>
-            <li><a href="javascript:jump(-1);">上一页</a></li>
-            <li class="active"><a href="javascript:void(0);">第${_page!1}页</a></li>
-            <li><a href="javascript:jump(1);">下一页</a></li>
-            <li><a href="javascript:jump(10);">下十页</a></li>
-          </ul>
-          <form action="/showBlog" method="POST">
-            <input id="_page" name="_page" type="hidden" value="${_page!1}">
-            <input id="_order" name="_order" type="hidden" value="${_order!'visit_num'}">
-          </form>
-          
-        </div><!-- /.blog-main -->
-<!--
-        <div class="col-sm-2 col-sm-offset-1 blog-sidebar">
-          <div class="sidebar-module">
-            <h4>笔记推荐</h4>
-            <ol class="list-unstyled">
-              <li><a href="javascript:void(0)">笔记标题</a></li>
-            </ol>
+  <body class="lay-blog">
+  <div class="header">
+    <div class="header-wrap">
+      <h1 class="logo pull-left">
+        <a href="/showBlog">
+          <!--<img src="/images/logo.png" alt="" class="logo-img"><img src="/images/mcbj.png" alt="" class="logo-img" >-->
+          <h3 style="color:#EEE">木车笔记</h3>
+        </a>
+      </h1>
+      <form class="layui-form blog-seach pull-left" action="/showBlog" method="POST">
+        <div class="layui-form-item blog-sewrap">
+          <div class="layui-input-block blog-sebox">
+            <i class="layui-icon">&#xe615;</i>
+            <input type="text" name="title" placeholder="标题" lay-verify="title" autocomplete="off"  class="layui-input">
+            <input id="_order" name="_order" type="hidden" value="${_order!'operation_time'}">
           </div>
-          <div class="sidebar-module">
-            <h4>其他分类</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">文学</a></li>
-              <li><a href="#">原创</a></li>
-              <li><a href="#">计算机</a></li>
-            </ol>
-          </div>
-           
         </div>
--->
-      </div><!-- /.row -->
-    </div><!-- /.container -->
+      </form>
 
-    <footer class="blog-footer">
-      <p>
-      </p>
-    </footer>
-
+      <div class="blog-nav pull-right">
+        <ul class="layui-nav pull-left">
+          <li class="layui-nav-item layui-this"><a href="/showBlog">首页</a></li>
+          <li class="layui-nav-item"><a href="/showProfile">关于</a></li>
+          <li class="layui-nav-item">
+	      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
+	      </li>
+        </ul>
+        <a href="/showSignin" class="personal pull-left">
+          <i class="layui-icon layui-icon-username"></i>
+        </a>
+      </div>
+      <div class="mobile-nav pull-right" id="mobile-nav">
+        <a href="javascript:;">
+          <i class="layui-icon layui-icon-more"></i>
+        </a>
+      </div>
+    </div>
+    <ul class="pop-nav" id="pop-nav">
+      <li><a href="/showBlog">首页</a></li>
+      <li><a href="/showProfile">关于</a></li>
+      <li>
+      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
+      </li>
+    </ul>
+    <a href="/showSignin" class="personal pull-left">
+      <i class="layui-icon layui-icon-username"></i>
+    </a>
+  </div>
+  <div class="container-wrap">
+    <div class="container">
+      <div class="contar-wrap">
+        <h4 class="item-title">
+          <p><!--<i class="layui-icon layui-icon-speaker"></i>-->排序: <a href="javascript:orderBy('visit_num');">按浏览数</a> <a href="javascript:orderBy('operation_time');">按时间</a></p>
+        </h4>
+        <#if topBlogList??>
+        <#list topBlogList as blogMap>
+        <div class="item">
+          <div class="item-box  layer-photos-demo1 layer-photos-demo">
+            <h3><a href="/blog/info/${blogMap.blog_id}">${blogMap.blog_title}</a></h3>
+            <h5>${blogMap.pseudonym_name} 发布于：<span>${blogMap.create_time}</span></h5>
+            <p>${blogMap.blog_text}</p>
+          </div>
+          <div class="comment count">
+            <a href="javascript:;">评论</a>
+            <a href="javascript:;" class="like">点赞</a>
+          </div>
+        </div>
+      </#list>
+      <#else>
+      <li>没有数据了</li>
+    </#if>
+      </div>
+      <div class="item-btn">
+        <button class="layui-btn layui-btn-normal">下一页</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>
+      <span><a href="http://www.miitbeian.gov.cn/">蜀ICP备18002214号</a></span>
+    </p>
+    <p><span>木车笔记</span></p>
+  </div>
 
   </body>
-</html>
-<script type="text/javascript">
-$("#blogPage").addClass("active");
+
+  <script src="/layui/layui.js"></script>
+  <script type="text/javascript">
+
 
 function jump(pageNum){
     var curPage = $('#_page').val();

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>
+            X-admin v1.0
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="/css/x-admin.css" media="all">
+    </head>
+    
+    <body>
+        <div class="x-body">
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label for="dateType" class="layui-form-label">
+                        日期类型
+                    </label>
+                    <div class="layui-input-block">
+                        <select lay-filter="monthSelector" lay-verify="required" name="dateType" id="dateType">
+                            <option value="lunar" <#if date_type?? && date_type == "lunar">selected="selected"</#if> >农历</option>
+                            <option value="solar" <#if date_type?? && date_type == "solar">selected="selected"</#if> >阳历</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="anniversaryMonth" class="layui-form-label">
+                        纪念日(月份)
+                    </label>
+                    <div class="layui-input-block">
+                        <select lay-verify="required" name="anniversaryMonth" id="anniversaryMonth">
+                        <#if date_type?? && date_type == "lunar">
+                            <option value="正月" <#if anniversary_month?? && anniversary_month == "正月">selected="selected"</#if> >正月</option>
+                            <option value="二月" <#if anniversary_month?? && anniversary_month == "二月">selected="selected"</#if> >二月</option>
+                            <option value="三月" <#if anniversary_month?? && anniversary_month == "三月">selected="selected"</#if> >三月</option>
+                            <option value="四月" <#if anniversary_month?? && anniversary_month == "四月">selected="selected"</#if> >四月</option>
+                            <option value="五月" <#if anniversary_month?? && anniversary_month == "五月">selected="selected"</#if> >五月</option>
+                            <option value="六月" <#if anniversary_month?? && anniversary_month == "六月">selected="selected"</#if> >六月</option>
+                            <option value="七月" <#if anniversary_month?? && anniversary_month == "七月">selected="selected"</#if> >七月</option>
+                            <option value="八月" <#if anniversary_month?? && anniversary_month == "八月">selected="selected"</#if> >八月</option>
+                            <option value="九月" <#if anniversary_month?? && anniversary_month == "九月">selected="selected"</#if> >九月</option>
+                            <option value="十月" <#if anniversary_month?? && anniversary_month == "十月">selected="selected"</#if> >十月</option>
+                            <option value="冬月" <#if anniversary_month?? && anniversary_month == "冬月">selected="selected"</#if> >冬月</option>
+                            <option value="腊月" <#if anniversary_month?? && anniversary_month == "腊月">selected="selected"</#if> >腊月</option>
+                        <#else>
+                        	<option value="01月" <#if anniversary_month?? && anniversary_month == "01月">selected="selected"</#if> >01月</option>
+				            <option value="02月" <#if anniversary_month?? && anniversary_month == "02月">selected="selected"</#if> >02月</option>
+				            <option value="03月" <#if anniversary_month?? && anniversary_month == "03月">selected="selected"</#if> >03月</option>
+				            <option value="04月" <#if anniversary_month?? && anniversary_month == "04月">selected="selected"</#if> >04月</option>
+				            <option value="05月" <#if anniversary_month?? && anniversary_month == "05月">selected="selected"</#if> >05月</option>
+				            <option value="06月" <#if anniversary_month?? && anniversary_month == "06月">selected="selected"</#if> >06月</option>
+				            <option value="07月" <#if anniversary_month?? && anniversary_month == "07月">selected="selected"</#if> >07月</option>
+				            <option value="08月" <#if anniversary_month?? && anniversary_month == "08月">selected="selected"</#if> >08月</option>
+				            <option value="09月" <#if anniversary_month?? && anniversary_month == "09月">selected="selected"</#if> >09月</option>
+				            <option value="10月" <#if anniversary_month?? && anniversary_month == "10月">selected="selected"</#if> >10月</option>
+				            <option value="11月" <#if anniversary_month?? && anniversary_month == "11月">selected="selected"</#if> >11月</option>
+				            <option value="12月" <#if anniversary_month?? && anniversary_month == "12月">selected="selected"</#if> >12月</option>
+                        </#if>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="anniversaryDate" class="layui-form-label">
+                        纪念日(日期)
+                    </label>
+                    <div class="layui-input-block">
+                        <select lay-verify="required" name="anniversaryDate" id="anniversaryDate">
+                        <#if date_type?? && date_type == "lunar">
+                            <option value="初一" <#if anniversary_date?? && anniversary_date == "初一">selected="selected"</#if> >初一</option>
+                            <option value="初二" <#if anniversary_date?? && anniversary_date == "初二">selected="selected"</#if> >初二</option>
+                            <option value="初三" <#if anniversary_date?? && anniversary_date == "初三">selected="selected"</#if> >初三</option>
+                            <option value="初四" <#if anniversary_date?? && anniversary_date == "初四">selected="selected"</#if> >初四</option>
+                            <option value="初五" <#if anniversary_date?? && anniversary_date == "初五">selected="selected"</#if> >初五</option>
+                            <option value="初六" <#if anniversary_date?? && anniversary_date == "初六">selected="selected"</#if> >初六</option>
+                            <option value="初七" <#if anniversary_date?? && anniversary_date == "初七">selected="selected"</#if> >初七</option>
+                            <option value="初八" <#if anniversary_date?? && anniversary_date == "初八">selected="selected"</#if> >初八</option>
+                            <option value="初九" <#if anniversary_date?? && anniversary_date == "初九">selected="selected"</#if> >初九</option>
+                            <option value="初十" <#if anniversary_date?? && anniversary_date == "初十">selected="selected"</#if> >初十</option>
+                            <option value="十一" <#if anniversary_date?? && anniversary_date == "十一">selected="selected"</#if> >十一</option>
+                            <option value="十二" <#if anniversary_date?? && anniversary_date == "十二">selected="selected"</#if> >十二</option>
+                            <option value="十三" <#if anniversary_date?? && anniversary_date == "十三">selected="selected"</#if> >十三</option>
+                            <option value="十四" <#if anniversary_date?? && anniversary_date == "十四">selected="selected"</#if> >十四</option>
+                            <option value="十五" <#if anniversary_date?? && anniversary_date == "十五">selected="selected"</#if> >十五</option>
+                            <option value="十六" <#if anniversary_date?? && anniversary_date == "十六">selected="selected"</#if> >十六</option>
+                            <option value="十七" <#if anniversary_date?? && anniversary_date == "十七">selected="selected"</#if> >十七</option>
+                            <option value="十八" <#if anniversary_date?? && anniversary_date == "十八">selected="selected"</#if> >十八</option>
+                            <option value="十九" <#if anniversary_date?? && anniversary_date == "十九">selected="selected"</#if> >十九</option>
+                            <option value="廿" <#if anniversary_date?? && anniversary_date == "廿">selected="selected"</#if> >廿</option>
+                            <option value="廿一" <#if anniversary_date?? && anniversary_date == "廿一">selected="selected"</#if> >廿一</option>
+                            <option value="廿二" <#if anniversary_date?? && anniversary_date == "廿二">selected="selected"</#if> >廿二</option>
+                            <option value="廿三" <#if anniversary_date?? && anniversary_date == "廿三">selected="selected"</#if> >廿三</option>
+                            <option value="廿四" <#if anniversary_date?? && anniversary_date == "廿四">selected="selected"</#if> >廿四</option>
+                            <option value="廿五" <#if anniversary_date?? && anniversary_date == "廿五">selected="selected"</#if> >廿五</option>
+                            <option value="廿六" <#if anniversary_date?? && anniversary_date == "廿六">selected="selected"</#if> >廿六</option>
+                            <option value="廿七" <#if anniversary_date?? && anniversary_date == "廿七">selected="selected"</#if> >廿七</option>
+                            <option value="廿八" <#if anniversary_date?? && anniversary_date == "廿八">selected="selected"</#if> >廿八</option>
+                            <option value="廿九" <#if anniversary_date?? && anniversary_date == "廿九">selected="selected"</#if> >廿九</option>
+                            <option value="卅" <#if anniversary_date?? && anniversary_date == "卅">selected="selected"</#if> >卅</option>
+                        <#else>
+                        	<option value="01日" <#if anniversary_date?? && anniversary_date == "01日">selected="selected"</#if> >01日</option>
+				            <option value="02日" <#if anniversary_date?? && anniversary_date == "02日">selected="selected"</#if> >02日</option>
+				            <option value="03日" <#if anniversary_date?? && anniversary_date == "03日">selected="selected"</#if> >03日</option>
+				            <option value="04日" <#if anniversary_date?? && anniversary_date == "04日">selected="selected"</#if> >04日</option>
+				            <option value="05日" <#if anniversary_date?? && anniversary_date == "05日">selected="selected"</#if> >05日</option>
+				            <option value="06日" <#if anniversary_date?? && anniversary_date == "06日">selected="selected"</#if> >06日</option>
+				            <option value="07日" <#if anniversary_date?? && anniversary_date == "07日">selected="selected"</#if> >07日</option>
+				            <option value="08日" <#if anniversary_date?? && anniversary_date == "08日">selected="selected"</#if> >08日</option>
+				            <option value="09日" <#if anniversary_date?? && anniversary_date == "09日">selected="selected"</#if> >09日</option>
+				            <option value="10日" <#if anniversary_date?? && anniversary_date == "10日">selected="selected"</#if> >10日</option>
+				            <option value="11日" <#if anniversary_date?? && anniversary_date == "11日">selected="selected"</#if> >11日</option>
+				            <option value="12日" <#if anniversary_date?? && anniversary_date == "12日">selected="selected"</#if> >12日</option>
+				            <option value="13日" <#if anniversary_date?? && anniversary_date == "13日">selected="selected"</#if> >13日</option>
+				            <option value="14日" <#if anniversary_date?? && anniversary_date == "14日">selected="selected"</#if> >14日</option>
+				            <option value="15日" <#if anniversary_date?? && anniversary_date == "15日">selected="selected"</#if> >15日</option>
+				            <option value="16日" <#if anniversary_date?? && anniversary_date == "16日">selected="selected"</#if> >16日</option>
+				            <option value="17日" <#if anniversary_date?? && anniversary_date == "17日">selected="selected"</#if> >17日</option>
+				            <option value="18日" <#if anniversary_date?? && anniversary_date == "18日">selected="selected"</#if> >18日</option>
+				            <option value="19日" <#if anniversary_date?? && anniversary_date == "19日">selected="selected"</#if> >19日</option>
+				            <option value="20日" <#if anniversary_date?? && anniversary_date == "20日">selected="selected"</#if> >20日</option>
+				            <option value="21日" <#if anniversary_date?? && anniversary_date == "21日">selected="selected"</#if> >21日</option>
+				            <option value="22日" <#if anniversary_date?? && anniversary_date == "22日">selected="selected"</#if> >22日</option>
+				            <option value="23日" <#if anniversary_date?? && anniversary_date == "23日">selected="selected"</#if> >23日</option>
+				            <option value="24日" <#if anniversary_date?? && anniversary_date == "24日">selected="selected"</#if> >24日</option>
+				            <option value="25日" <#if anniversary_date?? && anniversary_date == "25日">selected="selected"</#if> >25日</option>
+				            <option value="26日" <#if anniversary_date?? && anniversary_date == "26日">selected="selected"</#if> >26日</option>
+				            <option value="27日" <#if anniversary_date?? && anniversary_date == "27日">selected="selected"</#if> >27日</option>
+				            <option value="28日" <#if anniversary_date?? && anniversary_date == "28日">selected="selected"</#if> >28日</option>
+				            <option value="29日" <#if anniversary_date?? && anniversary_date == "29日">selected="selected"</#if> >29日</option>
+				            <option value="30日" <#if anniversary_date?? && anniversary_date == "30日">selected="selected"</#if> >30日</option>
+				            <option value="31日" <#if anniversary_date?? && anniversary_date == "31日">selected="selected"</#if> >31日</option>
+                        </#if>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="remindInterval" class="layui-form-label">
+                        提前提醒天数
+                    </label>
+                    <div class="layui-input-block">
+                        <select lay-verify="required" name="remindInterval" id="remindInterval">
+                            <option value='0' <#if remind_interval?? && remind_interval == 0>selected="selected"</#if> >当天</option>
+                            <option value='1' <#if remind_interval?? && remind_interval == 1>selected="selected"</#if> >1天</option>
+                            <option value='3' <#if remind_interval?? && remind_interval == 3>selected="selected"</#if> >3天</option>
+                            <option value='7' <#if remind_interval?? && remind_interval == 7>selected="selected"</#if> >7天</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="remindMobile" class="layui-form-label">
+                        提醒手机
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="remindMobile" name="remindMobile" required lay-verify="remindMobile"
+                        autocomplete="off" class="layui-input" value=${remind_mobile!""}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="remindEmail" class="layui-form-label">
+                        提醒邮箱
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="remindEmail" name="remindEmail" required lay-verify="remindEmail"
+                        autocomplete="off" class="layui-input" value=${remind_email!""}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="remindContent" class="layui-form-label">
+                        提醒内容
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" id="remindContent" name="remindContent" required lay-verify="remindContent"
+                        autocomplete="off" class="layui-input" value=${remind_content!""}>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" lay-filter="add" lay-submit>
+                        保存
+                    </button>
+                </div>
+            </form>
+        </div>
+        <script src="/js/jquery.min.js" charset="utf-8"></script>
+        <script src="/layui/layui.js" charset="utf-8"></script>
+        <script src="/js/x-layui.js" charset="utf-8"></script>
+        <script>
+            layui.use(['form','layer','layedit'], function(){
+                $ = layui.jquery;
+              var form = layui.form()
+              ,layer = layui.layer
+              ,layedit = layui.layedit;
+              
+              //监听提交
+              form.on('submit(add)', function(data){
+            	var id = ${id?c!""};
+            	data.field.id = id;
+                $.ajax({
+                    url:'/anniversaryRemind/doEdit',
+                    data:JSON.stringify(data.field),
+                    dataType:'json',
+                    contentType:'application/json',
+                    type:'post',
+                    success:function (repdata,textStatus) {
+                        if (repdata.status == 'SUCCESS'){
+                        	var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                        }else{
+                            layer.msg(repdata.msg);
+                        }
+                    }
+                });
+                return false;
+              });
+              
+              form.on('select(monthSelector)', function(data){
+	          	  var choosedDateType = $('#dateType').val();
+	          	  if (choosedDateType == "lunar") {
+	          		  $('#anniversaryMonth').empty();
+	                  $("#anniversaryMonth").append("<option value='正月'>正月</option>");
+	                  $("#anniversaryMonth").append("<option value='二月'>二月</option>");
+	                  $("#anniversaryMonth").append("<option value='三月'>三月</option>");
+	                  $("#anniversaryMonth").append("<option value='四月'>四月</option>");
+	                  $("#anniversaryMonth").append("<option value='五月'>五月</option>");
+	                  $("#anniversaryMonth").append("<option value='六月'>六月</option>");
+	                  $("#anniversaryMonth").append("<option value='七月'>七月</option>");
+	                  $("#anniversaryMonth").append("<option value='八月'>八月</option>");
+	                  $("#anniversaryMonth").append("<option value='九月'>九月</option>");
+	                  $("#anniversaryMonth").append("<option value='十月'>十月</option>");
+	                  $("#anniversaryMonth").append("<option value='冬月'>冬月</option>");
+	                  $("#anniversaryMonth").append("<option value='腊月'>腊月</option>");
+	                  
+	                  $('#anniversaryDate').empty();
+	                  $("#anniversaryDate").append("<option value='初一'>初一</option>");
+	                  $("#anniversaryDate").append("<option value='初二'>初二</option>");
+	                  $("#anniversaryDate").append("<option value='初三'>初三</option>");
+	                  $("#anniversaryDate").append("<option value='初四'>初四</option>");
+	                  $("#anniversaryDate").append("<option value='初五'>初五</option>");
+	                  $("#anniversaryDate").append("<option value='初六'>初六</option>");
+	                  $("#anniversaryDate").append("<option value='初七'>初七</option>");
+	                  $("#anniversaryDate").append("<option value='初八'>初八</option>");
+	                  $("#anniversaryDate").append("<option value='初九'>初九</option>");
+	                  $("#anniversaryDate").append("<option value='初十'>初十</option>");
+	                  $("#anniversaryDate").append("<option value='十一'>十一</option>");
+	                  $("#anniversaryDate").append("<option value='十二'>十二</option>");
+	                  $("#anniversaryDate").append("<option value='十三'>十三</option>");
+	                  $("#anniversaryDate").append("<option value='十四'>十四</option>");
+	                  $("#anniversaryDate").append("<option value='十五'>十五</option>");
+	                  $("#anniversaryDate").append("<option value='十六'>十六</option>");
+	                  $("#anniversaryDate").append("<option value='十七'>十七</option>");
+	                  $("#anniversaryDate").append("<option value='十八'>十八</option>");
+	                  $("#anniversaryDate").append("<option value='十九'>十九</option>");
+	                  $("#anniversaryDate").append("<option value='廿'>廿</option>");
+	                  $("#anniversaryDate").append("<option value='廿一'>廿一</option>");
+	                  $("#anniversaryDate").append("<option value='廿二'>廿二</option>");
+	                  $("#anniversaryDate").append("<option value='廿三'>廿三</option>");
+	                  $("#anniversaryDate").append("<option value='廿四'>廿四</option>");
+	                  $("#anniversaryDate").append("<option value='廿五'>廿五</option>");
+	                  $("#anniversaryDate").append("<option value='廿六'>廿六</option>");
+	                  $("#anniversaryDate").append("<option value='廿七'>廿七</option>");
+	                  $("#anniversaryDate").append("<option value='廿八'>廿八</option>");
+	                  $("#anniversaryDate").append("<option value='廿九'>廿九</option>");
+	                  $("#anniversaryDate").append("<option value='卅'>卅</option>");
+	          	  } else {
+	          		  $('#anniversaryMonth').empty();
+	          		  $("#anniversaryMonth").append("<option value='01月'>01月</option>");
+	          		  $("#anniversaryMonth").append("<option value='02月'>02月</option>");
+	          		  $("#anniversaryMonth").append("<option value='03月'>03月</option>");
+	          		  $("#anniversaryMonth").append("<option value='04月'>04月</option>");
+	          		  $("#anniversaryMonth").append("<option value='05月'>05月</option>");
+	          		  $("#anniversaryMonth").append("<option value='06月'>06月</option>");
+	          		  $("#anniversaryMonth").append("<option value='07月'>07月</option>");
+	          		  $("#anniversaryMonth").append("<option value='08月'>08月</option>");
+	          		  $("#anniversaryMonth").append("<option value='09月'>09月</option>");
+	          		  $("#anniversaryMonth").append("<option value='10月'>10月</option>");
+	          		  $("#anniversaryMonth").append("<option value='11月'>11月</option>");
+	          		  $("#anniversaryMonth").append("<option value='12月'>12月</option>");
+	          		  
+	          		  $('#anniversaryDate').empty();
+	                    $("#anniversaryDate").append("<option value='01日'>01日</option>");
+	                    $("#anniversaryDate").append("<option value='02日'>02日</option>");
+	                    $("#anniversaryDate").append("<option value='03日'>03日</option>");
+	                    $("#anniversaryDate").append("<option value='04日'>04日</option>");
+	                    $("#anniversaryDate").append("<option value='05日'>05日</option>");
+	                    $("#anniversaryDate").append("<option value='06日'>06日</option>");
+	                    $("#anniversaryDate").append("<option value='07日'>07日</option>");
+	                    $("#anniversaryDate").append("<option value='08日'>08日</option>");
+	                    $("#anniversaryDate").append("<option value='09日'>09日</option>");
+	                    $("#anniversaryDate").append("<option value='10日'>10日</option>");
+	                    $("#anniversaryDate").append("<option value='11日'>11日</option>");
+	                    $("#anniversaryDate").append("<option value='12日'>12日</option>");
+	                    $("#anniversaryDate").append("<option value='13日'>13日</option>");
+	                    $("#anniversaryDate").append("<option value='14日'>14日</option>");
+	                    $("#anniversaryDate").append("<option value='15日'>15日</option>");
+	                    $("#anniversaryDate").append("<option value='16日'>16日</option>");
+	                    $("#anniversaryDate").append("<option value='17日'>17日</option>");
+	                    $("#anniversaryDate").append("<option value='18日'>18日</option>");
+	                    $("#anniversaryDate").append("<option value='19日'>19日</option>");
+	                    $("#anniversaryDate").append("<option value='20日'>20日</option>");
+	                    $("#anniversaryDate").append("<option value='21日'>21日</option>");
+	                    $("#anniversaryDate").append("<option value='22日'>22日</option>");
+	                    $("#anniversaryDate").append("<option value='23日'>23日</option>");
+	                    $("#anniversaryDate").append("<option value='24日'>24日</option>");
+	                    $("#anniversaryDate").append("<option value='25日'>25日</option>");
+	                    $("#anniversaryDate").append("<option value='26日'>26日</option>");
+	                    $("#anniversaryDate").append("<option value='27日'>27日</option>");
+	                    $("#anniversaryDate").append("<option value='28日'>28日</option>");
+	                    $("#anniversaryDate").append("<option value='29日'>29日</option>");
+	                    $("#anniversaryDate").append("<option value='30日'>30日</option>");
+	                    $("#anniversaryDate").append("<option value='31日'>31日</option>");
+	          	  }
+	          	  form.render();
+	          	  return false;
+	            });
+            });
+            
+            
+            
+            
+        </script>
+    </body>
+
+</html>

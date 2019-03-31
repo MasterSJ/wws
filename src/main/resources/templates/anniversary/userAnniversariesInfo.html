@@ -1,94 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/icon/favicon.ico">
-
-    <title>何学 纪念日信息</title>
-
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link href="/css/dashboard.css" rel="stylesheet">
-    <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-select.min.css" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <#include "/common_page/backTitle.txt">
-
-    <div class="container-fluid">
-      <div class="row">
-        <#include "/common_page/backMenu.txt">
-        <div class="col-sm-8 col-sm-offset-2 main">
-          <div class="table-responsive" id="showDiv">
-            <table class="table">
-            <caption>纪念日提醒</caption>
-	           <thead>
-	              <tr>
-	                 <th>纪念日</th>
-                     <th>提前提醒天数</th>
-                     <th>提醒信息接收手机</th>
-                     <th>提醒信息接收邮箱</th>
-                     <th>提醒内容</th>
-                     <th>操作</th>
-	              </tr>
-	           </thead>
-	           <tbody>
-	              <#list anniversaries as x>
-	              <tr>
-	                 <td>${x["anniversary_month"]}${x["anniversary_date"]}</td>
-                     <td>${x["remind_interval"]}</td>
-                     <td>${x["remind_mobile"]}</td>
-                     <td>${x["remind_email"]}</td>
-                     <td>${x["remind_content"]}</td>
-                     <td><a data-toggle="modal" data-target="#subModal"
-                        href="editAnniversaryRemind?id=${x.id?c}">编辑</a></td>
-	              </tr>
-	              </#list>
-	           </tbody>
-	        </table>
-	        <a class="btn btn-primary" data-toggle="modal" data-target="#subModal"
-                        href="editAnniversaryRemind">新增</a>
-          </div>
-          <strong id="tip" style="color:#f00"></strong>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>
+            X-admin v1.0
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    </head>
+    <body>
+        <div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>纪念日提醒</cite></a>
+              <a><cite>查看纪念日</cite></a>
+            </span>
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
         </div>
-      </div>
-    </div>
-    
-    <div class="modal fade" id="subModal" tabindex="-1" role="dialog"
-        aria-labelledby="myModalLabel" aria-hidden="true"
-        data-backdrop="static">
-        <div class="modal-dialog">
-            <div class="modal-content"></div>
+        <div class="x-body">
+            <xblock><button class="layui-btn" onclick="questionAdd('添加纪念日','/addAnniversaryRemind','600','500')"><i class="layui-icon">&#xe608;</i>添加</button></xblock>
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>
+                            纪念日
+                        </th>
+                        <th>
+                            提前提醒天数
+                        </th>
+                        <th>
+                            提醒信息接收手机
+                        </th>
+                        <th>
+                            提醒信息接收邮箱
+                        </th>
+                        <th>
+                            提醒内容
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<#list anniversaries as x>
+                    <tr>
+                        <td>
+                           ${x["anniversary_month"]}${x["anniversary_date"]}
+                        </td>
+                        <td >
+                           ${x["remind_interval"]}
+                        </td>
+                        <td >
+                            ${x["remind_mobile"]}
+                        </td>
+                        <td >
+                            ${x["remind_email"]}
+                        </td>
+                        <td >
+                            ${x["remind_content"]}
+                        </td>
+                        <td class="td-manage">
+                            <a title="编辑" href="javascript:;" onclick="questionEdit('编辑','/editAnniversaryRemind?id=${x["id"]?c}','4','','510')"
+                            class="ml-5" style="text-decoration:none">
+                                <i class="layui-icon">&#xe642;</i>
+                            </a>
+                            <a title="删除" href="javascript:;" onclick="questionDel(this, '${x["id"]?c}')" 
+                            style="text-decoration:none">
+                                <i class="layui-icon">&#xe640;</i>
+                            </a>
+                        </td>
+                    </tr>
+                    </#list>
+                </tbody>
+            </table>
+
+            <div id="page"></div>
         </div>
-    </div>
+        <script src="/layui/layui.js" charset="utf-8"></script>
+        <script src="/js/x-layui.js" charset="utf-8"></script>
+        <script>
+            layui.use(['laydate','element','laypage','layer'], function(){
+                $ = layui.jquery;//jquery
+              laydate = layui.laydate;//日期插件
+              lement = layui.element();//面包导航
+              layer = layui.layer;//弹出层
+            });
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="/js/ie-emulation-modes-warning.js"></script>
-    <script src="/js/common-js.js"></script>
-    <script src="/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/js/bootstrap-datetimepicker.zh-CN.js"></script>
-    <script src="/js/bootstrap-select.min.js"></script>
-  </body>
-  
-  <script type="text/javascript">
-  $("#anniversaryRemindLi").addClass("active");
-  
 
-  $("#subModal").on("hidden.bs.modal", function() {
-	    $(this).removeData("bs.modal");
-	    window.location.reload();
-  });
-  
+             /*添加*/
+            function questionAdd(title,url,w,h){
+                x_admin_show(title,url,w,h);
+            }
+            //编辑 
+           function questionEdit (title,url,id,w,h) {
+                x_admin_show(title,url,w,h); 
+            }
 
-  </script>
+            /*删除*/
+            function questionDel(obj,id){
+                layer.confirm('确认要删除吗？',function(index){
+                    //发异步删除数据
+                    $.ajax({
+	                    url:'/delAnniversaryRemind',
+	                    data:{id:id},
+	                    type:'post',
+	                    success:function (repdata,textStatus) {
+	                        if (repdata.status == 'SUCCESS'){
+	                        	$(obj).parents("tr").remove();
+	                            layer.msg('已删除!',{icon:1,time:1000});
+	                        }else{
+	                            layer.msg(repdata.msg);
+	                        }
+	                    }
+	                });
+                });
+            }
+        </script>
+    </body>
 </html>

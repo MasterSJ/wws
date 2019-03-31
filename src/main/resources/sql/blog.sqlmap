@@ -23,9 +23,15 @@
     ]]>
     </sql>
     
+    <sql id="deleteBlog" description="删除博客"> 
+    <![CDATA[
+        delete from t_blog_info where id = ${blogId}
+    ]]>
+    </sql>
+    
     <sql id="getBlogInfo" description="查看博客内容"> 
     <![CDATA[
-        select blog_title, blog_html
+        select id,blog_title, blog_html, like_num, visit_num, operation_time
         from t_blog_info
         where id = '${blogId}'
         and is_visible = 1
@@ -47,7 +53,8 @@
     <![CDATA[
         select id blog_id, blog_title, blog_text, blog_html,
         date_format(create_time, '%Y-%m-%d %h:%i:%s') create_time, 
-        pseudonym_id, pseudonym_name, category_id, category_name, operation_time
+        from_unixtime(operation_time,'%Y-%m-%d %H:%i:%s') operation_time,
+        pseudonym_id, pseudonym_name, category_id, category_name
         from t_blog_info
         where user_name = '${userName}'
         <#if author?? && author !="">
@@ -65,6 +72,7 @@
         <#if content?? && content !="">
             and blog_text like '%${content}%'
         </#if>
+        order by operation_time desc
     ]]>
     </sql>
     
@@ -86,5 +94,13 @@
         limit 10
     ]]>
     </sql>
+
+    <sql id="likeFlag" description="点赞">
+        <![CDATA[
+            update t_blog_info
+            set like_num = like_num + 1
+            where id = ${blogId}
+        ]]>
+        </sql>
     
 </sqls>

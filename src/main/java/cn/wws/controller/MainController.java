@@ -21,28 +21,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSONObject;
 
+import cn.wws.controller.base.BaseController;
 import cn.wws.entity.SentenceList;
 import cn.wws.entity.User;
 import cn.wws.service.BaseService;
+import cn.wws.service.BlogService;
 
 @Controller  
-public class MainController {
+public class MainController extends BaseController{
 	@Autowired
 	BaseService baseService;
 	
 	@Autowired
 	SentenceList sentenceService;
+	@Autowired
+	BlogService blogService;
 	
 	@RequestMapping("/main")  
     public String toIndex(HttpServletRequest request,Model model){  
-		HttpSession httpSession = request.getSession(false);
-		if (httpSession != null) {
-			User user = (User)httpSession.getAttribute("USER");
-			model.addAttribute("USER", user);
-		} 
-		Map<String, Object> sentenceMap = sentenceService.getSentence();
-		model.addAttribute("sentenceMap", sentenceMap);
-        return "base/main";  
+		Map<String, String> pagingParam = getPagingParam(request, model);
+		String order = request.getParameter("_order");
+		if(StringUtils.isEmpty(order)){
+			order = "operation_time";
+		}
+		pagingParam.put("_order", order + " desc");
+		model.addAttribute("_order", order);
+
+		List<Map<String, String>> list = baseService.executeLimitQuery("blog.getTopBlog", null, pagingParam);
+		blogService.decodeBlogBase64(list);
+		blogService.handleBlogShort(list);
+		if (list.size() >= 1) {
+			model.addAttribute("topBlogList", list);
+			//StringEscapeUtils.unescapeHtml4((String)blogMap.get("blog_html")));
+		}
+		return "blog/blog";  
     }  
 	
 	@RequestMapping("/")  

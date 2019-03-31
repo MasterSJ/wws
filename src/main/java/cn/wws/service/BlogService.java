@@ -1,5 +1,6 @@
 package cn.wws.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +72,12 @@ public class BlogService {
 		}
 		ret.setSuccessMsg("笔记修改成功");
 		return ret;
+	}
+	//删除博客
+	public int deleteBlog(int id) {
+		Map<String, Object> param = new HashMap<>();
+    	param.put("blogId", String.valueOf(id));
+        return baseService.executeUpdate("blog.deleteBlog", param);
 	}
 	
 	public void encodeBlogBase64(List<Map<String, Object>> list) {

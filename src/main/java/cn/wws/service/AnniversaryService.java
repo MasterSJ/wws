@@ -48,6 +48,12 @@ public class AnniversaryService {
         return baseService.executeUpdate("anniversary.updateAnniversaries", param);
     }
     
+    public int deleteAnniversary(int id) {
+    	Map<String, Object> param = new HashMap<>();
+    	param.put("id", String.valueOf(id));
+        return baseService.executeUpdate("anniversary.deleteAnniversary", param);
+    }
+    
     /**
      * @Description: 查看要提醒的纪念日信息.
      * @author: songjun 

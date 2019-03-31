@@ -39,8 +39,14 @@ public class UserController extends BaseController{
 	@Autowired
 	private SigninService signinService;
 
-	@RequestMapping("/info")  
+	@RequestMapping("/console")  
     public String showSignin(HttpServletRequest request, Model model) {  
+		mergeUserInfo(model);
+		return "user/console"; 
+    } 
+	
+	@RequestMapping("/userInfo")  
+    public String showUserInfo(HttpServletRequest request, Model model) {  
 		mergeUserInfo(model);
 		return "user/userInfo"; 
     } 
