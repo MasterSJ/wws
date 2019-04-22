@@ -65,7 +65,10 @@
           			<#list topBlogList as blogMap>
                     <tr>
                         <td>
+                        <a title="查看" href="javascript:;" onclick="questionSelect('详情','/showMyBlogInfo?blogId=${blogMap.blog_id?c}','4','','510')"
+                            class="ml-5" style="text-decoration:none">
                            ${blogMap.blog_title}
+                        </a>
                         </td>
                         <td >
                            ${blogMap.pseudonym_name!" "}
@@ -151,6 +154,10 @@
            function questionEdit (title,url,id,w,h) {
                 x_admin_show(title,url,w,h); 
             }
+            
+           function questionSelect(title,url,id,w,h) {
+               x_admin_show(title,url,w,h); 
+           }
 
             /*删除*/
             function questionDel(obj,id){

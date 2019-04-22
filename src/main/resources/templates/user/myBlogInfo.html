@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>wws 笔记详情</title>
-    
-    <link rel="icon" href="/icon/favicon.ico">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link href="/css/dashboard.css" rel="stylesheet">
-    <link href="/css/blog.css" rel="stylesheet">
-</head>
-<body>
-<#include "/common_page/backTitle.txt">
-<div class="container-fluid">
-	<div class="row">
-        <#include "/common_page/backMenu.txt">
-        <div class="col-sm-8 col-sm-offset-2 main">
-			<div class="container col-md-12">
-				<div class="blog-header"><h1 class="text-center">${blogTitle!""}</h1></div>
-			    <div id="content" class="text-left">
-			        ${blogHtml!"<p>笔记内容</p>"}
-			    </div>
-			</div>
-		</div>
-	</div>
-</div>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/ie-emulation-modes-warning.js"></script>
-    <script src="/js/ie10-viewport-bug-workaround.js"></script>
-    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
-    <script type="text/javascript">
-    	$("#myBlogLi").addClass("active");
-    </script>
+	<head>
+        <meta charset="utf-8">
+        <title>
+            笔记详情
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link href="/layui/css/layui.css" rel="stylesheet">
+    	<link href="/css/mian.css" rel="stylesheet">
+    </head>
+
+	<body class="lay-blog">
+    <div class="container-wrap" style="padding: 30px 0 30px 0;">
+    <div class="container container-message container-details">
+      <div class="contar-wrap">
+        <div class="item">
+          <div class="item-box  layer-photos-demo1 layer-photos-demo">
+            <h3><b>${blogTitle}</b></h3>
+            ${blogHtml}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="/js/jquery.min.js" charset="utf-8"></script>
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/js/x-layui.js" charset="utf-8"></script>
 </body>
 </html>
