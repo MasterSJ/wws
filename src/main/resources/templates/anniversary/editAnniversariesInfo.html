@@ -197,7 +197,11 @@
               
               //监听提交
               form.on('submit(add)', function(data){
-            	var id = ${id?c!""};
+            	<#if id??>
+            	var id = ${id?c};
+            	<#else>
+            	var id = null;
+            	</#if>
             	data.field.id = id;
                 $.ajax({
                     url:'/anniversaryRemind/doEdit',
