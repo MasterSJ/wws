@@ -1,29 +1,25 @@
 package cn.wws.controller;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
-import com.alibaba.fastjson.JSONObject;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.wws.controller.base.BaseController;
+import cn.wws.entity.ReturnResult;
 import cn.wws.entity.SentenceList;
-import cn.wws.entity.User;
 import cn.wws.service.BaseService;
 import cn.wws.service.BlogService;
 
@@ -75,6 +71,37 @@ public class MainController extends BaseController{
 	@RequestMapping("/{suburi}")  
     public String test(HttpServletRequest request, @PathVariable String suburi, Model model){  
         return "base/error";
+    }
+	
+	//随机排序
+    private static Long randomTime = 0L;
+    @RequestMapping(path="/allow/randomSort")
+    public @ResponseBody ReturnResult test11(@RequestParam(required=false) String test, 
+            @RequestBody List<String> list) {
+        ReturnResult ret = new ReturnResult();
+        if(StringUtils.isEmpty(test)){
+            synchronized (randomTime) {
+                long current = System.currentTimeMillis();
+                if(current < randomTime){
+                    long wait = (randomTime - current) / 1000;
+                    ret.setFailMsg("重复操作,还需" + wait + "秒后才能再次操作");
+                    return ret;
+                } else {
+                    //半个小时之内只能请求一次（除非重启）
+                    randomTime = current + 1000 * 1800;
+                }
+            }
+        }
+        Random ra =new Random();
+        int size = list.size();
+        for(int i=0; i<size; i++){
+            int index = ra.nextInt(size-i);
+            String tmp = list.get(index);
+            list.set(index, list.get(size-1-i));
+            list.set(size-1-i, tmp);
+        }
+        ret.setSuccessMsg(list.toString());
+        return ret;
     }
 		
 }
