@@ -101,7 +101,9 @@ public class WechatController {
                                   map.put("remindContent", params[i].substring(2).trim());
                               }
                           }
-                          anniversaryService.updateAnniversary(map);
+                          if(map.containsKey("id")){
+                              anniversaryService.updateAnniversary(map);
+                          }
                       }
                   }
               } else {
