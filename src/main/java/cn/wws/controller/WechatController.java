@@ -3,6 +3,7 @@ package cn.wws.controller;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,9 +25,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mysql.jdbc.StringUtils;
 
+import cn.wws.service.AnniversaryService;
 import cn.wws.service.BaseService;
 import cn.wws.service.SystemParamService;
 import cn.wws.service.WechatOperateService;
+import cn.wws.service.WechatService;
 import cn.wws.util.CookieUtil;
 import cn.wws.util.HttpExecutor;
 import cn.wws.util.PropertiesUtil;
@@ -37,6 +40,10 @@ public class WechatController {
       private static final Logger LOGGER = LoggerFactory.getLogger(WechatController.class);
       @Autowired
       BaseService service;
+      @Autowired
+      WechatService wehchatService;
+      @Autowired
+      AnniversaryService anniversaryService;
       
       @Autowired
       WechatOperateService wechatOperateService;
@@ -55,13 +62,62 @@ public class WechatController {
                       signature, timestamp, nonce, echostr);
               return echostr;
           }
+          String openId = (String)paramMap.get("FromUserName");
           
           LOGGER.info("传入参数：paramMap={}", paramMap);
+          StringBuilder msg = new StringBuilder();
           if ("text".equals(paramMap.get("MsgType"))) {
-              wechatOperateService.sendMsgToUser(String.valueOf(paramMap.get("FromUserName")), "你发送的消息是："+paramMap.get("Content"));
+              String content = (String)paramMap.get("Content");
+              if(content.startsWith("cmd")){
+                  content = content.substring(3);
+                  if(content.startsWith("查询")){
+                      content = content.substring(2);
+                      if(content.startsWith("纪念日")){
+                          msg.append("纪念日    提醒内容    编号\n");
+                          Map<String, Object> map = new HashMap<>();
+                          map.put("openId", openId);
+                          List<Map> rst = service.executeQuery("wechat.getAnniversariesByOpenid", map);
+                          for(Map ann : rst){
+                              msg.append("" + ann.get("anniversary_month") + ann.get("anniversary_date")+
+                                      "    " + ann.get("remind_content") + "    " +ann.get("id") + "\n");
+                          }
+                      }
+                  } else if(content.startsWith("修改")) {
+                      String userName = wehchatService.getUserNameByOpenId(openId);
+                      content = content.substring(2);
+                      if(content.startsWith("纪念日")){
+                          content = content.substring(3).trim();
+                          String[] params = content.split(" ");
+                          Map<String, String> map = new HashMap<>();
+                          map.put("userName", userName);
+                          for(int i=0; i<params.length; i++){
+                              if(params[i].startsWith("-i")){
+                                  map.put("id", params[i].substring(2).trim());
+                              } else if(params[i].startsWith("-m")){
+                                  map.put("anniversaryMonth", params[i].substring(2).trim());
+                              } else if(params[i].startsWith("-d")){
+                                  map.put("anniversaryDate", params[i].substring(2).trim());
+                              } else if(params[i].startsWith("-c")){
+                                  map.put("remindContent", params[i].substring(2).trim());
+                              }
+                          }
+                          anniversaryService.updateAnniversary(map);
+                      }
+                  }
+              } else {
+                  msg.append("你发送的消息是："+content);
+              }
+          } else {
+              msg.append("你发送的不是文本消息");
           }
+          wechatOperateService.sendMsgToUser(String.valueOf(paramMap.get("FromUserName")), msg.toString());
           
           return echostr;
+      }
+      
+      @RequestMapping("/operateExample")  
+      public String operateExample(HttpServletRequest request){
+          return "base/wechatOperateExample"; 
       }
       
       @RequestMapping("/getAccessToken")  

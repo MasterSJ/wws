@@ -29,13 +29,29 @@
     <sql id="updateAnniversaries" description="修改用户纪念日信息"> 
     <![CDATA[
         UPDATE t_anniversary_remind
-        SET date_type = '${dateType}', 
+        SET 
+        <#if dateType?? && dateType !="">
+        date_type = '${dateType}', 
+        </#if>
+        <#if anniversaryMonth?? && anniversaryMonth !="">
         anniversary_month = '${anniversaryMonth}', 
+        </#if>
+        <#if anniversaryDate?? && anniversaryDate !="">
         anniversary_date = '${anniversaryDate}', 
+        </#if>
+        <#if remindInterval?? && remindInterval !="">
         remind_interval = ${remindInterval}, 
+        </#if>
+        <#if remindEmail?? && remindEmail !="">
         remind_email = '${remindEmail}', 
+        </#if>
+        <#if remindContent?? && remindContent !="">
         remind_content = '${remindContent}',
-        remind_mobile = '${remindMobile}'
+        </#if>
+        <#if remindMobile?? && remindMobile !="">
+        remind_mobile = '${remindMobile}',
+        </#if>
+        user_name = '${userName}'
         WHERE user_name = '${userName}'
         and id = '${id}'
     ]]>

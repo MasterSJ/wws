@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="getAnniversariesByOpenid" description="通过openid获取纪念日提醒"> 
+    <![CDATA[
+        SELECT a.id, a.date_type, a.anniversary_month, a.anniversary_date, a.remind_interval, 
+        a.remind_email, a.remind_mobile, a.remind_content
+        FROM t_anniversary_remind a
+        INNER JOIN t_user b on b.user_name = a.user_name
+        WHERE 1 = 1
+        <#if userName?? && userName !="">
+            and b.open_id = '${openId}'
+        </#if>
+    ]]>
+    </sql>
+    
+    <sql id="getUserNameByOpenId" description="通过openid获取用户名"> 
+    <![CDATA[
+        SELECT user_name
+        FROM t_user 
+        WHERE openid = '${openId}'
+    ]]>
+    </sql>
+</sqls>
