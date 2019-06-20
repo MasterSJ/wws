@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<sqls>
+    <sql id="getPlanManageByUserName" description="获取计划"> 
+    <![CDATA[
+        SELECT a.id, a.user_name, a.plan_name, a.plan_desc, a.plan_type, b.desc plan_type_desc,
+            a.plan_times, a.start_date, a.end_date, a.last_remind_date, 
+            case a.enable when '1' then '启用' when '0' then '不启用' else '异常' end as enable
+        FROM t_plan_manage a
+        LEFT JOIN t_code_enum b on b.category = 1 and b.code = a.plan_type
+        WHERE 1 = 1
+        <#if userName?? && userName !="">
+            and user_name = '${userName}'
+        </#if>
+    ]]>
+    </sql>
+    
+    <sql id="insertPlanManage" description="新增计划"> 
+    <![CDATA[
+        insert into t_plan_manage 
+        (user_name, plan_name, plan_desc, plan_type, plan_times, start_date, end_date,last_remind_date, enable, create_time)
+        values('${userName}','${planName}','${planDesc}','${planType}', ${planTimes}, '${startDate}', '${endDate}',
+        '${lastRemindDate}', '${enable}', now())
+    ]]>
+    </sql>
+    
+    <sql id="insertPlanRemind" description="新增计划提醒"> 
+    <![CDATA[
+        insert into t_plan_remind 
+        (plan_manage_id, remind_date, create_time)
+        values('${planManageId}','${remindDate}', now())
+    ]]>
+    </sql>
+    
+    <sql id="updatePlanManage" description="修改计划"> 
+    <![CDATA[
+        update t_plan_manage 
+        set plan_name = '${planName}',
+        plan_desc = '${planDesc}',
+        plan_type = '${planType}',
+        plan_times = ${planTimes},
+        start_date = '${startDate}',
+        end_date = '${endDate}',
+        last_remind_date = '${lastRemindDate}',
+        enable = '${enable}'
+        where user_name = '${userName}' and id = ${id}
+    ]]>
+    </sql>
+
+    <sql id="getPlanManageById" description="获取计划"> 
+    <![CDATA[
+        SELECT a.id, a.user_name, a.plan_name, a.plan_desc, a.plan_type, b.desc plan_type_desc,
+            a.plan_times, a.start_date, a.end_date, a.last_remind_date, 
+            case a.enable when '1' then '启用' when '0' then '不启用' else '异常' end as enable
+        FROM t_plan_manage a
+        LEFT JOIN t_code_enum b on b.category = 1 and b.code = a.plan_type
+        WHERE 1 = 1
+        <#if userName?? && userName !="">
+            and a.user_name = '${userName}'
+        </#if>
+        <#if id?? && id !="">
+            and a.id = ${id}
+        </#if>
+    ]]>
+    </sql>
+
+
+    <sql id="getUnremindPlanManageByUserName" description="获取没有生成提醒任务的计划"> 
+    <![CDATA[
+        SELECT a.id, a.last_remind_date
+        FROM t_plan_manage a
+        left join t_plan_remind b on b.plan_manage_id = a.id 
+        where a.enable = 1
+        and a.last_remind_date is not null
+        and b.id is null
+        and a.user_name = '${userName}'
+    ]]>
+    </sql>
+
+    <sql id="deletePlanManage" description="删除计划"> 
+    <![CDATA[
+        DELETE FROM t_plan_manage
+        where user_name = '${userName}' AND id = ${planId}
+    ]]>
+    </sql>
+
+    <sql id="deletePlanRemindByPlanId" description="删除计划"> 
+    <![CDATA[
+        DELETE FROM t_plan_remind
+        where plan_manage_id = ${planId}
+    ]]>
+    </sql>
+
+    <sql id="getPlanManageByDateAndType" description="获取待生成任务的计划"> 
+    <![CDATA[
+        SELECT id
+        FROM t_plan_manage
+        where enable = 1 and last_remind_date < '${date}' and plan_type = '${planType}'
+        and start_date <= '${date}' and end_date >= '${date}'
+    ]]>
+    </sql>
+    
+    <sql id="getUserPlanRemind" description="获取计划提醒"> 
+    <![CDATA[
+        select a.id, b.plan_name, b.plan_desc, b.plan_type, a.finished_times, b.plan_times, a.finished,
+            a.remind_date, c.desc plan_type_desc
+        from t_plan_remind a
+        left join t_plan_manage b on b.id = a.plan_manage_id
+        left join t_code_enum c on c.category = 1 and c.code = b.plan_type
+        where a.remind_date <= CURRENT_DATE() and b.user_name = '${userName}'
+        and (
+        (a.remind_date = CURRENT_DATE() and b.plan_type = 'day') or
+        (a.remind_date = CURRENT_DATE() and b.plan_type = 'once') or
+        (a.remind_date >= '${weekStart}' and b.plan_type = 'week') or
+        (a.remind_date >= '${monthStart}' and b.plan_type = 'month') or
+        (a.remind_date >= '${yearStart}' and b.plan_type = 'year')
+        )
+        order by a.finished, b.plan_type, a.remind_date desc
+    ]]>
+    </sql>
+    
+    <sql id="finishPlanRemind" description=""> 
+    <![CDATA[
+        update t_plan_remind set finished_times = finished_times + 1
+        <#if finished?? && finished !="">
+            , finished = '${finished}'
+        </#if>
+        where id = ${planRemindId}
+    ]]>
+    </sql>
+    
+    <sql id="getRemindFinishStatus" description=""> 
+    <![CDATA[
+        select a.finished_times, b.plan_times
+        from t_plan_remind a
+        left join t_plan_manage b on b.id = a.plan_manage_id
+        where a.id = ${planRemindId}
+    ]]>
+    </sql>
+    
+</sqls>

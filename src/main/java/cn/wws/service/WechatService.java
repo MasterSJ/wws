@@ -30,4 +30,11 @@ public class WechatService {
         }
         return null;
     }
+    
+    public List<Map<String, Object>> getAnniversariesByOpenid(String openId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("openId", openId);
+        List<Map<String, Object>> rst = baseService.executeQuery("wechat.getAnniversariesByOpenid", map);
+        return rst;
+    }
 }

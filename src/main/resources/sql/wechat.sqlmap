@@ -8,7 +8,7 @@
         FROM t_anniversary_remind a
         INNER JOIN t_user b on b.user_name = a.user_name
         WHERE 1 = 1
-        <#if userName?? && userName !="">
+        <#if openId?? && openId !="">
             and b.open_id = '${openId}'
         </#if>
     ]]>

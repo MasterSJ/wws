@@ -74,10 +74,8 @@ public class WechatController {
                       content = content.substring(2);
                       if(content.startsWith("纪念日")){
                           msg.append("纪念日    提醒内容    编号\n");
-                          Map<String, Object> map = new HashMap<>();
-                          map.put("openId", openId);
-                          List<Map> rst = service.executeQuery("wechat.getAnniversariesByOpenid", map);
-                          for(Map ann : rst){
+                          List<Map<String, Object>> rst = wehchatService.getAnniversariesByOpenid(openId);
+                          for(Map<String, Object> ann : rst){
                               msg.append("" + ann.get("anniversary_month") + ann.get("anniversary_date")+
                                       "    " + ann.get("remind_content") + "    " +ann.get("id") + "\n");
                           }
