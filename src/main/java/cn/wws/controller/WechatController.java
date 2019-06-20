@@ -27,6 +27,7 @@ import com.mysql.jdbc.StringUtils;
 
 import cn.wws.service.AnniversaryService;
 import cn.wws.service.BaseService;
+import cn.wws.service.PlanService;
 import cn.wws.service.SystemParamService;
 import cn.wws.service.WechatOperateService;
 import cn.wws.service.WechatService;
@@ -44,6 +45,8 @@ public class WechatController {
       WechatService wehchatService;
       @Autowired
       AnniversaryService anniversaryService;
+      @Autowired
+      PlanService planService;
       
       @Autowired
       WechatOperateService wechatOperateService;
@@ -79,6 +82,14 @@ public class WechatController {
                               msg.append("" + ann.get("anniversary_month") + ann.get("anniversary_date")+
                                       "    " + ann.get("remind_content") + "    " +ann.get("id") + "\n");
                           }
+                      } else if(content.startsWith("计划")){
+                          msg.append("名称    进度    编号\n");
+                          String userName = wehchatService.getUserNameByOpenId(openId);
+                          List<Map<String, Object>> list = planService.getUserPlanRemind(userName);
+                          for(Map<String, Object> planRemind : list){
+                              msg.append("" + planRemind.get("plan_name") + "    " + planRemind.get("finished_times") + 
+                            		  "/" + planRemind.get("plan_times") + "    " +planRemind.get("id") + "\n");
+                          }
                       }
                   } else if(content.startsWith("修改")) {
                       String userName = wehchatService.getUserNameByOpenId(openId);
@@ -103,6 +114,25 @@ public class WechatController {
                               anniversaryService.updateAnniversary(map);
                           }
                       }
+                  } else if(content.startsWith("完成计划")){
+                	  content = content.substring(4);
+                	  int id = 0;
+                	  String[] params = content.split(" ");
+                	  for(int i=0; i<params.length; i++){
+                          if(params[i].startsWith("-i")){
+                              try{
+                        		  id = Integer.valueOf(params[i].substring(2).trim());
+                        		  planService.finishPlanRemind(id);
+                        	  }catch(Exception e){
+                        		  msg.append("命令错误");
+                        	  }
+                          } 
+                      }
+                  } else {
+                	  msg.append("查询纪念日: cmd查询纪念日\n");
+                	  msg.append("修改纪念日: cmd修改纪念日 -i10002 -m六月 -d廿五 -c普天同庆\n");
+                	  msg.append("查询计划: cmd查询计划\n");
+                	  msg.append("完成计划: cmd完成计划 -i5");
                   }
               } else {
                   msg.append("你发送的消息是："+content);
