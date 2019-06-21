@@ -83,7 +83,7 @@ public class WechatController {
                                       "    " + ann.get("remind_content") + "    " +ann.get("id") + "\n");
                           }
                       } else if(content.startsWith("计划")){
-                          msg.append("名称    进度    编号\n");
+                          msg.append("计划    进度    编号\n");
                           String userName = wehchatService.getUserNameByOpenId(openId);
                           List<Map<String, Object>> list = planService.getUserPlanRemind(userName);
                           for(Map<String, Object> planRemind : list){
@@ -112,6 +112,7 @@ public class WechatController {
                           }
                           if(map.containsKey("id")){
                               anniversaryService.updateAnniversary(map);
+                              msg.append("操作成功");
                           }
                       }
                   } else if(content.startsWith("完成计划")){
@@ -123,6 +124,7 @@ public class WechatController {
                               try{
                         		  id = Integer.valueOf(params[i].substring(2).trim());
                         		  planService.finishPlanRemind(id);
+                        		  msg.append("操作成功");
                         	  }catch(Exception e){
                         		  msg.append("命令错误");
                         	  }
