@@ -83,12 +83,13 @@ public class WechatController {
                                       "    " + ann.get("remind_content") + "    " +ann.get("id") + "\n");
                           }
                       } else if(content.startsWith("计划")){
-                          msg.append("计划    进度    编号\n");
+                          msg.append("计划    进度    提醒日期    编号\n");
                           String userName = wehchatService.getUserNameByOpenId(openId);
                           List<Map<String, Object>> list = planService.getUserPlanRemind(userName);
                           for(Map<String, Object> planRemind : list){
-                              msg.append("" + planRemind.get("plan_name") + "    " + planRemind.get("finished_times") + 
-                            		  "/" + planRemind.get("plan_times") + "    " +planRemind.get("id") + "\n");
+                              msg.append("" + planRemind.get("plan_name") + "    " + 
+                                      planRemind.get("finished_times") + "/" + planRemind.get("plan_times") + 
+                                      "    " +planRemind.get("remind_date") + "    " +planRemind.get("id") + "\n");
                           }
                       }
                   } else if(content.startsWith("修改")) {

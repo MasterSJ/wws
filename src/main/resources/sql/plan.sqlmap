@@ -113,7 +113,8 @@
         (a.remind_date = CURRENT_DATE() and b.plan_type = 'once') or
         (a.remind_date >= '${weekStart}' and b.plan_type = 'week') or
         (a.remind_date >= '${monthStart}' and b.plan_type = 'month') or
-        (a.remind_date >= '${yearStart}' and b.plan_type = 'year')
+        (a.remind_date >= '${yearStart}' and b.plan_type = 'year') or
+        a.finished = 'N'
         )
         order by a.finished, b.plan_type, a.remind_date desc
     ]]>
