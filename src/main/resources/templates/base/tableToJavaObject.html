@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>
+            ddl转换java对象
+        </title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="/css/x-admin.css" media="all">
+    </head>
+    
+    <body>
+        <div class="x-body">
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label for="editor" class="layui-form-label">
+                        ddl语句
+                    </label>
+                    <div id="editor" class="layui-input-block">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" lay-filter="add" lay-submit>
+                        提交
+                    </button>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <p id="rst"></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script src="/js/jquery.min.js" charset="utf-8"></script>
+        <script src="/layui/layui.js" charset="utf-8"></script>
+        <script src="/js/x-layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/js/wangEditor.min.js"></script>
+        <script>
+        
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        editor.create();
+        
+            layui.use(['form','layer','layedit'], function(){
+                $ = layui.jquery;
+              var form = layui.form()
+              ,layer = layui.layer
+              ,layedit = layui.layedit;
+              
+              //监听提交
+              form.on('submit(add)', function(data){
+                //console.info(data.field);
+                var type = "mysql";
+                var cmd = editor.txt.text();
+                data.field.type = type;
+                data.field.cmd = cmd;
+                $.ajax({
+                    url:'/allow/tableToJavaObject',
+                    data:JSON.stringify(data.field),
+                    dataType:'json',
+                    contentType:'application/json',
+                    type:'post',
+                    success:function (repdata,textStatus) {
+                        if (repdata.status == 'SUCCESS'){
+                            $("#rst").html(repdata.msg);
+                        } else{
+                            layer.msg(repdata.msg);
+                        }
+                    }
+                });
+                return false;
+              });
+              
+            });
+        </script>
+    </body>
+
+</html>

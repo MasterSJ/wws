@@ -22,6 +22,7 @@ import cn.wws.entity.ReturnResult;
 import cn.wws.entity.SentenceList;
 import cn.wws.service.BaseService;
 import cn.wws.service.BlogService;
+import cn.wws.util.DtoUtil;
 
 @Controller  
 public class MainController extends BaseController{
@@ -103,5 +104,23 @@ public class MainController extends BaseController{
         ret.setSuccessMsg(list.toString());
         return ret;
     }
-		
+    
+    @RequestMapping(path="/allow/tableToJavaObject")
+    public @ResponseBody ReturnResult tableToJavaObject(@RequestBody Map<String,String> param) {
+        ReturnResult ret = new ReturnResult();
+        String type = param.get("type");
+        if("mysql".equalsIgnoreCase(type)){
+            DtoUtil dtoUtil = new DtoUtil();
+            String classString = dtoUtil.getObjByTable(param.get("cmd"));
+            String htmlString = classString.replace(System.getProperty("line.separator"), "<br>")
+                    .replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;");
+            ret.setSuccessMsg(htmlString);
+        }
+        return ret;
+    }
+    
+    @RequestMapping("/allow/showTableToJavaObject")
+    public String showBlog(HttpServletRequest request, Model model) {
+        return "base/tableToJavaObject";
+    }
 }

@@ -41,9 +41,9 @@ public class BaseService<T> {
     
     public List<T> executeQuery(String sqlId, Map<String, ?> paramMap, Class<T> t) {
         String sql = SqlUtil.getSql(sqlId, paramMap);
-        List<Map<String, Object>> list = mapper.executeQuery(sql);
+        List<Map<?, ?>> list = mapper.executeQuery(sql);
         try{
-            return MapperUtil.getInstance().mapperList(list, t);
+            return MapperUtil.mapperList(list, t);
         } catch(Exception e) {
             return null;
         }

@@ -4,32 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapperUtil<T> {
-    private static MapperUtil instance;
-    
-    private MapperUtil(){
-    }
-    
-    public static MapperUtil getInstance(){
-        if (instance == null){
-            synchronized (MapperUtil.class) {
-                if(instance == null){
-                    instance = new MapperUtil();
-                }
-            }
-        }
-        return instance;
-    }
+public class MapperUtil {
     /**    
     * @Description 通过泛型和反射自动Mapper数据. 
     * @author songjun  
+     * @param <T>
     * @date 2019年1月9日   
     * @param maplist
     * @param t
     * @return
     * @throws Exception
     */ 
-    public List<T> mapperList(List<Map> maplist,Class<T> t) throws Exception{
+    public static <T> List<T> mapperList(List<Map<?, ?>> maplist,Class<T> t) throws Exception{
         List<Object> rtnlist=new ArrayList<>();
         if(maplist==null||maplist.size()==0){
             return (List<T>)rtnlist;
@@ -48,7 +34,7 @@ public class MapperUtil<T> {
      * @return
      * @throws Exception
      */
-    public <T>T mapperObj(Map map, Class<T> t) throws Exception{
+    public static <T> T mapperObj(Map<?, ?> map, Class<T> t) throws Exception{
         if(map==null||map.size()==0){
             return t.newInstance();
         }
@@ -71,7 +57,7 @@ public class MapperUtil<T> {
     }
     
     //下划线转驼峰
-    public String underlineToHump(String para){
+    public static String underlineToHump(String para){
         StringBuilder result=new StringBuilder();
         String a[]=para.split("_");
         for(String s:a){
@@ -86,7 +72,7 @@ public class MapperUtil<T> {
     }
     
     //驼峰转下划线
-    public String humpToUnderline(String para){
+    public static String humpToUnderline(String para){
         StringBuilder sb=new StringBuilder(para);
         int temp=0;//定位
         for(int i=0;i<para.length();i++){
