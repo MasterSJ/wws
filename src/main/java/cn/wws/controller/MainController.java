@@ -110,8 +110,17 @@ public class MainController extends BaseController{
         ReturnResult ret = new ReturnResult();
         String type = param.get("type");
         if("mysql".equalsIgnoreCase(type)){
+            String rstType = param.get("rstType");
             DtoUtil dtoUtil = new DtoUtil();
-            String classString = dtoUtil.getObjByTable(param.get("cmd"));
+            String classString = null;
+            if("javaObject".equals(rstType)){
+                classString = dtoUtil.getObjByTable(param.get("cmd"));
+            } else if("selectCmd".equals(rstType)){
+                classString = dtoUtil.getSelectCmdByTable(param.get("cmd"));
+            } else {
+                ret.setFailMsg("参数异常");
+                return ret;
+            }
             String htmlString = classString.replace(System.getProperty("line.separator"), "<br>")
                     .replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;");
             ret.setSuccessMsg(htmlString);

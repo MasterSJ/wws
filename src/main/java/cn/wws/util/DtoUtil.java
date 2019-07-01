@@ -16,6 +16,35 @@ import com.mysql.jdbc.StringUtils;
 public class DtoUtil{
     boolean quotationOpen = false;//引号关闭
     
+    //生成select语句
+    public String getSelectCmdByTable(String createTableCmd){
+        StringBuilder sb = new StringBuilder();
+        StringWriter sw = new StringWriter();
+        sw.write(createTableCmd);
+        
+        try(StringReader sr = new StringReader(createTableCmd)) {
+            String tableName = getTableName(sr);
+            if(StringUtils.isNullOrEmpty(tableName)){
+                return "数据异常";
+            }
+            
+            sb.append("select ");
+            List<Map<String, String>> columnList = getColumnList(sr);
+            for(int i=0; i<columnList.size(); i++){
+                Map<String, String> map = columnList.get(i);
+                if(i > 0){
+                    sb.append(", ");
+                }
+                sb.append(map.get("colName"));
+            }
+            sb.append(System.getProperty("line.separator")).append("from ").append(tableName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+    
+    //生成java对象
     public String getObjByTable(String createTableCmd){
         StringBuilder sb = new StringBuilder();
         StringWriter sw = new StringWriter();
@@ -26,14 +55,12 @@ public class DtoUtil{
             if(StringUtils.isNullOrEmpty(className)){
                 return "数据异常";
             }
-            String classNameTail = className.substring(1);
-            className = className.substring(0, 1).toUpperCase() + classNameTail;
             //System.out.println("类名：" + className);
             sb.append("public class ").append(className).append(" {");
             
             List<Map<String, String>> columnList = getColumnList(sr);
-            //System.out.println("列信息：");
-            //System.out.println(columnList);
+            //System.out.println("列信息：" + columnList);
+            
             collectColumns(sb, columnList);
             sb.append(System.getProperty("line.separator")).append("}");
         } catch (IOException e) {
@@ -89,6 +116,14 @@ public class DtoUtil{
     }
     
     private String getClassName(StringReader reader) throws IOException{
+        String tableName = getTableName(reader);
+        String humpName = MapperUtil.underlineToHump(tableName);
+        String classNameTail = humpName.substring(1);
+        String className = humpName.substring(0, 1).toUpperCase() + classNameTail;
+        return className;
+    }
+    
+    private String getTableName(StringReader reader) throws IOException{
         Stack<String> cmdStock = new Stack<>();
         String next = null;
         while((next = getNextWord(reader)) != null){
@@ -99,7 +134,7 @@ public class DtoUtil{
                 String last = cmdStock.pop();
                 if("CREATE".equals(last)){
                     next = getNextWord(reader);
-                    return MapperUtil.underlineToHump(next.replace("`", ""));
+                    return next.replace("`", "");
                 }
             }
         }
@@ -177,7 +212,7 @@ public class DtoUtil{
 
         String str1=new String(buffer,"UTF-8");
         //System.out.println(str1);
-        String rst = ins.getObjByTable(str1);
+        String rst = ins.getSelectCmdByTable(str1);
         System.out.println(rst);
     }
 }

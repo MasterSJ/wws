@@ -26,6 +26,17 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label for="rstType" class="layui-form-label">
+                        转换结果
+                    </label>
+                    <div class="layui-input-block">
+                        <select lay-filter="rstType" lay-verify="required" name="rstType" id="rstType">
+	                        <option value="javaObject">javaObject</option>
+	                        <option value="selectCmd">selectCmd</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <button class="layui-btn" lay-filter="add" lay-submit>
                         提交
                     </button>
@@ -58,8 +69,10 @@
                 //console.info(data.field);
                 var type = "mysql";
                 var cmd = editor.txt.text();
+                var rstType = $("#rstType").find("option:selected").text();
                 data.field.type = type;
                 data.field.cmd = cmd;
+                data.field.rstType = rstType;
                 $.ajax({
                     url:'/allow/tableToJavaObject',
                     data:JSON.stringify(data.field),
