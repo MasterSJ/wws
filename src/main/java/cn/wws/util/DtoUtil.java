@@ -92,8 +92,9 @@ public class DtoUtil{
         List<String> colLines = getColLines(reader);
         for(String line : colLines){
             line = line.trim();
-            if(line.startsWith("KEY ") || line.startsWith("PRIMARY KEY ")
-                    || line.startsWith("key ") || line.startsWith("primary key ")){
+            if(line.startsWith("KEY ") || line.startsWith("key ")
+                    || line.startsWith("PRIMARY KEY ") || line.startsWith("primary key ")
+                    || line.startsWith("UNIQUE KEY ") || line.startsWith("unique key ")){
                 continue;
             }
             String[] desc = line.split(" ");
