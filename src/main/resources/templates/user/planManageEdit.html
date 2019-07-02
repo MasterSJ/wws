@@ -112,6 +112,7 @@
               ,laydate = layui.laydate//日期插件
               ,layer = layui.layer
               ,layedit = layui.layedit;
+            
               
               var start = {
                 min: laydate.now()
@@ -140,6 +141,7 @@
                   lastRemind.max = datas; //结束日选好后，重置开始日的最大日期
                 }
               };
+            
               document.getElementById('startDate').onclick = function(){
                 start.elem = this;
                 laydate(start);
@@ -181,7 +183,7 @@
                 return false;
               });
               
+            });
         </script>
     </body>
-
 </html>

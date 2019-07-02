@@ -81,7 +81,7 @@ public class PlanController {
         }
         User user = RequestUtil.getRequestUser();
         param.put("userName", user.getUserName());
-        String id = param.get("id").toString();
+        String id = (String)param.get("id");
         if (StringUtils.isEmpty(id)) {
             String lastRemindDate = (String) param.get("lastRemindDate");
             if(StringUtils.isEmpty(lastRemindDate)){
