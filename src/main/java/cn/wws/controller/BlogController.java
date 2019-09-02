@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,7 +43,7 @@ public class BlogController extends BaseController {
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //设置格式
 
 	@RequestMapping("/showBlog")
-	public String showBlog(HttpServletRequest request, Model model) {
+	public String showBlog(HttpServletRequest request, @RequestBody Map<String, Object> param, Model model) {
 		Map<String, String> pagingParam = getPagingParam(request, model);
 		String order = request.getParameter("_order");
 		if(StringUtils.isEmpty(order)){
@@ -102,7 +101,7 @@ public class BlogController extends BaseController {
 	public String showMyBlogInfo(HttpServletRequest request, HttpServletResponse response, Model model) {
 		mergeUserInfo(model);
 		String blogId = request.getParameter("blogId");
-		if (Strings.isBlank(blogId)) {
+		if (StringUtils.isBlank(blogId)) {
 			return "user/userInfo";
 		}
 		Map<String, String> map = new HashMap<String, String>();
@@ -142,7 +141,7 @@ public class BlogController extends BaseController {
 	public String showWriteBlog(HttpServletRequest request, HttpServletResponse response, Model model) {
 		mergeUserInfo(model);
 		String blogId = request.getParameter("blogId");
-		if (Strings.isBlank(blogId)) {
+		if (StringUtils.isBlank(blogId)) {
 			return "blog/writeBlog";
 		}
 		Map<String, String> map = new HashMap<String, String>();

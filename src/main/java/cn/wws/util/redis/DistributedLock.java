@@ -3,15 +3,15 @@ package cn.wws.util.redis;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisException;
 
 public class DistributedLock {
-    private static Logger LOGGER = LogManager.getLogger(DistributedLock.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DistributedLock.class);
     
     /**
      * 加锁

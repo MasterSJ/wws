@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -36,7 +36,7 @@ public class BaseController {
 		Map<String, String> pagingParam = null;
 		String _page = request.getParameter("_page");
 		model.addAttribute("_page", _page);
-		if (Strings.isBlank(_page)) {
+		if (StringUtils.isBlank(_page)) {
 			_page = "1";
 		}
 		pagingParam = PageingUtil.getLimitMap(_page, "10");

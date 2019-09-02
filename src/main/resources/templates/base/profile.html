@@ -35,13 +35,7 @@
         <ul class="layui-nav pull-left">
           <li class="layui-nav-item"><a href="/showBlog">首页</a></li>
           <li class="layui-nav-item  layui-this"><a href="/showProfile">关于</a></li>
-          <li class="layui-nav-item">
-	      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
-	      </li>
         </ul>
-        <a href="#" class="personal pull-left">
-          <i class="layui-icon layui-icon-username"></i>
-        </a>
       </div>
       <div class="mobile-nav pull-right" id="mobile-nav">
         <a href="javascript:;">
@@ -52,9 +46,6 @@
     <ul class="pop-nav" id="pop-nav">
       <li><a href="/showBlog">首页</a></li>
       <li><a href="/showProfile">关于</a></li>
-      <li>
-      <#if USER??><a href="/user/console">${USER.userName}<#else><a href="/showSignin">登录</#if></a>
-      </li>
     </ul>
   </div>
   <div class="container-wrap">

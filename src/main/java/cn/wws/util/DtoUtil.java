@@ -74,12 +74,16 @@ public class DtoUtil{
         for(Map<String, String> map : columnList){
             if(map.containsKey("colComment")){
                 sb.append(System.getProperty("line.separator")).append("    //").append(map.get("colComment"));
+                sb.append(System.getProperty("line.separator")).append("    @SetKey(\"").append(map.get("colName").replace("`", "")).append("\")");
+                sb.append(System.getProperty("line.separator")).append("    @ColumnKey(\"").append(map.get("colName").replace("`", "")).append("\")");
             }
             sb.append(System.getProperty("line.separator")).append("    private ");
             if(map.get("colType").indexOf("bigint") >= 0){
                 sb.append("Long ");
             } else if(map.get("colType").indexOf("int") >= 0){
                 sb.append("Integer ");
+            } else if(map.get("colType").indexOf("decimal") >= 0){
+                sb.append("BigDecimal ");
             } else {
                 sb.append("String ");
             }
